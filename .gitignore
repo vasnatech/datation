@@ -1,5 +1,14 @@
+**/.DS_Store
+**/.idea/
+**/*.iml
+
 # Compiled class file
 *.class
+**/target
+**/bin/
+**/.settings/
+**/.project
+**/.classpath
 
 # Log file
 *.log
