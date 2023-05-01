@@ -1,4 +1,4 @@
-package com.vasnatech.datation.schema.parse;
+package com.vasnatech.datation.schema.ddl.parse;
 
 public class ParserException extends RuntimeException {
 

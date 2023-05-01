@@ -1,9 +1,9 @@
-package com.vasnatech.datation.schema.parse;
+package com.vasnatech.datation.schema.ddl.parse;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
-import com.vasnatech.datation.schema.*;
+import com.vasnatech.datation.schema.ddl.*;
 
 import java.io.IOException;
 import java.io.InputStream;

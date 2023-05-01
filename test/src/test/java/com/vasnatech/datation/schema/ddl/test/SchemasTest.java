@@ -1,11 +1,11 @@
-package com.vasnatech.datation.schema.test;
+package com.vasnatech.datation.schema.ddl.test;
 
 import com.vasnatech.commons.resource.Resources;
-import com.vasnatech.datation.schema.Schemas;
-import com.vasnatech.datation.schema.parse.Parser;
-import com.vasnatech.datation.schema.parse.ParserFactory;
-import com.vasnatech.datation.schema.validate.Validator;
-import com.vasnatech.datation.schema.validate.ValidatorFactory;
+import com.vasnatech.datation.schema.ddl.Schemas;
+import com.vasnatech.datation.schema.ddl.parse.Parser;
+import com.vasnatech.datation.schema.ddl.parse.ParserFactory;
+import com.vasnatech.datation.schema.ddl.validate.Validator;
+import com.vasnatech.datation.schema.ddl.validate.ValidatorFactory;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;

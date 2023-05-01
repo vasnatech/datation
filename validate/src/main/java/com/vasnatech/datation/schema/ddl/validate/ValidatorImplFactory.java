@@ -1,4 +1,4 @@
-package com.vasnatech.datation.schema.validate;
+package com.vasnatech.datation.schema.ddl.validate;
 
 public class ValidatorImplFactory extends ValidatorFactory {
 

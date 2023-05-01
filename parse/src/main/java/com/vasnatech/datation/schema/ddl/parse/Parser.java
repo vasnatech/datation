@@ -1,6 +1,6 @@
-package com.vasnatech.datation.schema.parse;
+package com.vasnatech.datation.schema.ddl.parse;
 
-import com.vasnatech.datation.schema.*;
+import com.vasnatech.datation.schema.ddl.*;
 
 import java.io.IOException;
 import java.io.InputStream;

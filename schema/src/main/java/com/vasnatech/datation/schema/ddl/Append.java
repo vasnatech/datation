@@ -1,4 +1,4 @@
-package com.vasnatech.datation.schema;
+package com.vasnatech.datation.schema.ddl;
 
 public class Append {
 

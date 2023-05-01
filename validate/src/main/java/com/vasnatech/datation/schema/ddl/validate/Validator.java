@@ -1,6 +1,6 @@
-package com.vasnatech.datation.schema.validate;
+package com.vasnatech.datation.schema.ddl.validate;
 
-import com.vasnatech.datation.schema.Schemas;
+import com.vasnatech.datation.schema.ddl.Schemas;
 
 import java.util.List;
 
