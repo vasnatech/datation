@@ -2,10 +2,11 @@ package com.vasnatech.datation.schema.ddl.test;
 
 import com.vasnatech.commons.resource.Resources;
 import com.vasnatech.datation.schema.ddl.Schemas;
-import com.vasnatech.datation.schema.ddl.parse.Parser;
-import com.vasnatech.datation.schema.ddl.parse.ParserFactory;
-import com.vasnatech.datation.schema.ddl.validate.Validator;
-import com.vasnatech.datation.schema.ddl.validate.ValidatorFactory;
+import com.vasnatech.datation.schema.parse.ddl.DDLParser;
+import com.vasnatech.datation.schema.parse.ddl.DDLParserFactory;
+import com.vasnatech.datation.schema.validate.ValidationInfo;
+import com.vasnatech.datation.schema.validate.ddl.DDLValidator;
+import com.vasnatech.datation.schema.validate.ddl.DDLValidatorFactory;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -19,10 +20,10 @@ public class SchemasTest {
     @Test
     void test() {
         try (InputStream in = Resources.asInputStream(SchemasTest.class, "schema.json")) {
-            final Parser parser = ParserFactory.instance().create();
+            final DDLParser parser = DDLParserFactory.instance().create();
             final Schemas db = parser.parseAndNormalize(in);
-            final Validator validator = ValidatorFactory.instance().create();
-            final List<Validator.Result> results = validator.validate(db);
+            final DDLValidator validator = DDLValidatorFactory.instance().create();
+            final List<ValidationInfo> results = validator.validate(db);
             assertThat(results).isEmpty();
         } catch (IOException e) {
             throw new RuntimeException(e);

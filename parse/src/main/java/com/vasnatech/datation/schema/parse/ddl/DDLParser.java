@@ -1,11 +1,12 @@
-package com.vasnatech.datation.schema.ddl.parse;
+package com.vasnatech.datation.schema.parse.ddl;
 
 import com.vasnatech.datation.schema.ddl.*;
+import com.vasnatech.datation.schema.parse.ParserException;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-public interface Parser {
+public interface DDLParser {
 
     Schemas parse(InputStream in) throws IOException;
 

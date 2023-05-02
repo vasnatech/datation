@@ -1,4 +1,4 @@
-package com.vasnatech.datation.schema.ddl.validate;
+package com.vasnatech.datation.schema.validate;
 
 public class ValidationException extends Exception {
 

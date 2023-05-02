@@ -1,4 +1,4 @@
-package com.vasnatech.datation.schema.ddl.parse;
+package com.vasnatech.datation.schema.parse.ddl;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
@@ -9,15 +9,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;
 
-public class JacksonParser implements Parser {
+public class JacksonDDLParser implements DDLParser {
 
     JsonFactory jsonFactory;
 
-    public JacksonParser() {
+    public JacksonDDLParser() {
         this(new JsonFactory());
     }
 
-    public JacksonParser(JsonFactory jsonFactory) {
+    public JacksonDDLParser(JsonFactory jsonFactory) {
         this.jsonFactory = jsonFactory;
     }
 
