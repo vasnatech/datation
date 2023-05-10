@@ -10,10 +10,9 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>schema</module>
-        <module>parse</module>
-        <module>validate</module>
-        <module>test</module>
+        <module>core</module>
+        <module>ddl</module>
+        <module>entity</module>
     </modules>
 
     <properties>
