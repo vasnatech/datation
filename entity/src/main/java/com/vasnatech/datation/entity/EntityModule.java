@@ -23,7 +23,7 @@ public final class EntityModule implements Module<EntitySchemas, EntityParser, E
 
     private EntityModule() {
         values = Module.of(
-            "ddl",
+            "entity",
             EntitySchemas.class,
             Map.of(SupportedMediaTypes.JSON, new JacksonJsonEntityParserFactory()),
             new EntityValidatorFactory()

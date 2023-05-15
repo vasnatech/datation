@@ -1,6 +1,7 @@
 package com.vasnatech.datation.entity.schema;
 
 import java.util.EnumSet;
+import java.util.function.Predicate;
 
 public enum FieldType {
 
@@ -35,5 +36,40 @@ public enum FieldType {
 
     public EnumSet<FieldTypeGroup> getGroups() {
         return groups;
+    }
+
+    public boolean isBoolean() {
+        return isInGroup(FieldTypeGroup::isBoolean);
+    }
+    public boolean isNumber() {
+        return isInGroup(FieldTypeGroup::isNumber);
+    }
+    public boolean isText() {
+        return isInGroup(FieldTypeGroup::isText);
+    }
+    public boolean isDate() {
+        return isInGroup(FieldTypeGroup::isDate);
+    }
+    public boolean isTime() {
+        return isInGroup(FieldTypeGroup::isTime);
+    }
+    public boolean isDateTime() {
+        return isInGroup(FieldTypeGroup::isDateTime);
+    }
+    public boolean isArray() {
+        return isInGroup(FieldTypeGroup::isArray);
+    }
+    public boolean isCollection() {
+        return isInGroup(FieldTypeGroup::isCollection);
+    }
+    public boolean isObject() {
+        return isInGroup(FieldTypeGroup::isObject);
+    }
+    private boolean isInGroup(Predicate<? super FieldTypeGroup> predicate) {
+        return groups.stream().anyMatch(predicate);
+    }
+
+    public boolean isPrimitive() {
+        return groups.stream().allMatch(FieldTypeGroup::isPrimitive);
     }
 }

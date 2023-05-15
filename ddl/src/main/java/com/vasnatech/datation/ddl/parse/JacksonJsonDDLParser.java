@@ -53,12 +53,12 @@ public class JacksonJsonDDLParser implements DDLParser {
         return null;
     }
 
-    private void parseMeta(JsonParser parser, DDLSchemas.Builder databaseBuilder) throws IOException {
+    private void parseMeta(JsonParser parser, DDLSchemas.Builder schemasBuilder) throws IOException {
         parser.nextToken();
         if (parser.currentToken() == JsonToken.START_OBJECT) {
             parser.nextToken();
             while (parser.currentToken() == JsonToken.FIELD_NAME) {
-                databaseBuilder.meta(parser.currentName(), parser.nextTextValue());
+                schemasBuilder.meta(parser.currentName(), parser.nextTextValue());
                 parser.nextToken();
             }
         }
@@ -301,7 +301,7 @@ public class JacksonJsonDDLParser implements DDLParser {
                     parser.nextToken();
                     while (parser.currentToken() == JsonToken.FIELD_NAME) {
                         String fieldName = parser.currentName();
-                        if ("column-anchor".equals(fieldName)) {
+                        if ("anchor".equals(fieldName)) {
                             appendBuilder.anchor(Anchor.valueOf(parser.nextTextValue().toUpperCase(Locale.ENGLISH)));
                         }
                         parser.nextToken();

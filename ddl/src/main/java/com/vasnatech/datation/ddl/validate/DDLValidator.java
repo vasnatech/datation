@@ -181,20 +181,4 @@ public class DDLValidator implements SchemaValidator<DDLSchemas> {
         validationInfoBuilder.removePath();
     }
 
-    private boolean isIdentifier(String identifier) {
-        if (StringUtils.isEmpty(identifier)) {
-            return false;
-        }
-        int index = 0;
-        if (!Character.isJavaIdentifierStart(identifier.charAt(index++))) {
-            return false;
-        }
-        for (; index < identifier.length(); ++index) {
-            if (!Character.isJavaIdentifierPart(identifier.charAt(index))) {
-                return false;
-            }
-        }
-        return true;
-    }
-
 }

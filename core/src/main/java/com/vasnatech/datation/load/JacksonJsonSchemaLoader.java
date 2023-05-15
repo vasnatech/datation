@@ -78,7 +78,7 @@ public class JacksonJsonSchemaLoader implements SchemaLoader {
         }
         if (isValidateEnabled()) {
             SchemaValidatorFactory<S, SchemaValidator<S>> validatorFactory = Modules.getSchemaValidatorFactory(schemaType);
-            SchemaValidator<S> validator = validatorFactory.create();
+            SchemaValidator<S> validator = validatorFactory.create(schemaVersion);
             validator.validateAndThrow(schema);
         }
         return schema;

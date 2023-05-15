@@ -11,12 +11,12 @@ import com.vasnatech.datation.parse.SchemaParser;
 public interface DDLParser extends SchemaParser<DDLSchemas> {
 
     default DDLSchemas normalize(DDLSchemas schemas) {
-        DDLSchemas.Builder databaseBuilder = DDLSchemas.builder();
-        databaseBuilder.meta(schemas.getMeta());
+        DDLSchemas.Builder schemasBuilder = DDLSchemas.builder();
+        schemasBuilder.meta(schemas.getMeta());
         for (DDLSchema schema : schemas.getSchemas().values()) {
-            databaseBuilder.schema(normalize(schema));
+            schemasBuilder.schema(normalize(schema));
         }
-        return databaseBuilder.build();
+        return schemasBuilder.build();
     }
 
     private DDLSchema normalize(DDLSchema schema) {
