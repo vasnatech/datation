@@ -65,8 +65,8 @@ public class DDL extends Node {
             return false;
         }
 
-        public static SimpleColumn.Builder builder() {
-            return new SimpleColumn.Builder();
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder {
