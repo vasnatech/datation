@@ -1,0 +1,13 @@
+{
+  "meta": {
+    "@schema-type": "ui-control",
+    "@schema-version": "1"
+  },
+  "name": "text",
+  "fields": {
+    "text": {
+      "control": "text",
+      "binding": "text"
+    }
+  }
+}

@@ -13,6 +13,7 @@
         <module>core</module>
         <module>ddl</module>
         <module>entity</module>
+        <module>ui</module>
     </modules>
 
     <properties>

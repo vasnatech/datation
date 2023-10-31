@@ -16,7 +16,7 @@ import java.util.Map;
 
 public class JacksonJsonDDLParser implements DDLParser {
 
-    JsonFactory jsonFactory;
+    final JsonFactory jsonFactory;
 
     public JacksonJsonDDLParser(JsonFactory jsonFactory) {
         this.jsonFactory = jsonFactory;
