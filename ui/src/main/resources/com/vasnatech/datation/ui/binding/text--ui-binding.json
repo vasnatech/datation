@@ -1,6 +1,6 @@
 {
   "meta": {
-    "@schema-type": "ui-control",
+    "@schema-type": "ui-binding",
     "@schema-version": "1"
   },
   "name": "text",

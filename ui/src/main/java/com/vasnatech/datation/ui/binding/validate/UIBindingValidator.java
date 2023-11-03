@@ -42,23 +42,11 @@ public class UIBindingValidator implements SchemaValidator<UIBindingSchema> {
         if (!isIdentifier(field.getName())) {
             validationInfoBuilder.message("Field has invalid name.");
         }
-        if (StringUtils.isEmpty(field.getControlName())) {
-            validationInfoBuilder.message("Field has no control.");
-        }
         if (field.getControl() == null) {
             validationInfoBuilder.message("Field has invalid control.");
         }
-        if (StringUtils.isEmpty(field.getGetBinding())) {
-            validationInfoBuilder.message("Field has no get binding.");
-        }
         if (field.getGetExpression() == null) {
             validationInfoBuilder.message("Field has invalid get binding.");
-        }
-        if (StringUtils.isEmpty(field.getSetBinding())) {
-            validationInfoBuilder.message("Field has no set binding.");
-        }
-        if (field.getSetExpression() == null) {
-            validationInfoBuilder.message("Field has invalid set binding.");
         }
 
         validationInfoBuilder.removePath();

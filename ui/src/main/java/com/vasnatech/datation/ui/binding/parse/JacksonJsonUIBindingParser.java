@@ -7,6 +7,7 @@ import com.vasnatech.commons.serialize.MediaType;
 import com.vasnatech.datation.SupportedMediaTypes;
 import com.vasnatech.datation.ui.binding.schema.Field;
 import com.vasnatech.datation.ui.binding.schema.UIBindingSchema;
+import com.vasnatech.datation.ui.control.schema.UIControlFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -103,15 +104,15 @@ public class JacksonJsonUIBindingParser implements UIBindingParser {
             while (parser.currentToken() == JsonToken.FIELD_NAME) {
                 String fieldName = parser.currentName();
                 if ("control".equals(fieldName)) {
-                    fieldBuilder.control(parser.nextTextValue());
+                    fieldBuilder.control(UIControlFactory.instance().create(parser.nextTextValue()));
                 } else if ("binding".equals(fieldName)) {
-                    fieldBuilder.binding(parser.nextTextValue());
+                    fieldBuilder.binding(ExpressionParser.instance().create(parser.nextTextValue()));
                 } else if ("getter".equals(fieldName)) {
-                    fieldBuilder.getter(parser.nextTextValue());
+                    fieldBuilder.getter(ExpressionParser.instance().create(parser.nextTextValue()));
                 } else if ("setter".equals(fieldName)) {
-                    fieldBuilder.setter(parser.nextTextValue());
+                    fieldBuilder.setter(ExpressionParser.instance().create(parser.nextTextValue()));
                 } else if ("data-source".equals(fieldName)) {
-                    fieldBuilder.dataSource(parser.nextTextValue());
+                    fieldBuilder.dataSource(ExpressionParser.instance().create(parser.nextTextValue()));
                 }
                 parser.nextToken();
             }

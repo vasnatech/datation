@@ -1,78 +1,56 @@
 package com.vasnatech.datation.ui.binding.schema;
 
-import com.vasnatech.commons.expression.Expression;
+import com.vasnatech.datation.ui.binding.parse.ExpressionParser;
 import com.vasnatech.datation.ui.control.schema.Control;
+import com.vasnatech.datation.ui.control.schema.UIControlFactory;
+import org.springframework.expression.Expression;
+
+import java.util.StringJoiner;
 
 public class Field {
     final String name;
-    final String controlName;
-    final String getBinding;
-    final String setBinding;
-    final String dataSourceBinding;
+    final Control control;
+    final Expression getExpression;
+    final Expression setExpression;
+    final Expression dataSourceExpression;
 
-    Control control;
-    Expression getExpression;
-    Expression setExpression;
-    Expression dataSourceExpression;
-
-    public Field(String name, String controlName, String getBinding, String setBinding, String dataSourceBinding) {
+    public Field(String name, Control control, Expression getExpression, Expression setExpression, Expression dataSourceExpression) {
         this.name = name;
-        this.controlName = controlName;
-        this.getBinding = getBinding;
-        this.setBinding = setBinding;
-        this.dataSourceBinding = dataSourceBinding;
+        this.control = control;
+        this.getExpression = getExpression;
+        this.setExpression = setExpression;
+        this.dataSourceExpression = dataSourceExpression;
     }
 
     public String getName() {
         return name;
     }
 
-    public String getControlName() {
-        return controlName;
-    }
-
-    public String getGetBinding() {
-        return getBinding;
-    }
-
-    public String getSetBinding() {
-        return setBinding;
-    }
-
-    public String getDataSourceBinding() {
-        return dataSourceBinding;
-    }
-
     public Control getControl() {
         return control;
-    }
-
-    public void setControl(Control control) {
-        this.control = control;
     }
 
     public Expression getGetExpression() {
         return getExpression;
     }
 
-    public void setGetExpression(Expression getExpression) {
-        this.getExpression = getExpression;
-    }
-
     public Expression getSetExpression() {
         return setExpression;
-    }
-
-    public void setSetExpression(Expression setExpression) {
-        this.setExpression = setExpression;
     }
 
     public Expression getDataSourceExpression() {
         return dataSourceExpression;
     }
 
-    public void setDataSourceExpression(Expression dataSourceExpression) {
-        this.dataSourceExpression = dataSourceExpression;
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", Field.class.getSimpleName() + "[", "]")
+                .add("name='" + name + "'")
+                .add("control=" + control)
+                .add("getExpression=" + getExpression.getExpressionString())
+                .add("setExpression=" + (setExpression == null ? null : setExpression.getExpressionString()))
+                .add("dataSourceExpression=" + (dataSourceExpression == null ? null : dataSourceExpression.getExpressionString()))
+                .toString();
     }
 
     public static Builder builder() {
@@ -81,44 +59,44 @@ public class Field {
 
     public static final class Builder {
         String name;
-        String controlName;
-        String getBinding;
-        String setBinding;
-        String dataSourceBinding;
+        Control control;
+        Expression getExpression;
+        Expression setExpression;
+        Expression dataSourceExpression;
 
         public Builder name(String name) {
             this.name = name;
             return this;
         }
 
-        public Builder control(String controlName) {
-            this.controlName = controlName;
+        public Builder control(Control control) {
+            this.control = control;
             return this;
         }
 
-        public Builder binding(String binding) {
-            this.getBinding = binding;
-            this.setBinding = binding;
+        public Builder binding(Expression expression) {
+            this.getExpression = expression;
+            this.setExpression = expression;
             return this;
         }
 
-        public Builder getter(String getBinding) {
-            this.getBinding = getBinding;
+        public Builder getter(Expression expression) {
+            this.getExpression = expression;
             return this;
         }
 
-        public Builder setter(String setBinding) {
-            this.setBinding = setBinding;
+        public Builder setter(Expression expression) {
+            this.setExpression = expression;
             return this;
         }
 
-        public Builder dataSource(String dataSourceBinding) {
-            this.dataSourceBinding = dataSourceBinding;
+        public Builder dataSource(Expression dataSourceExpression) {
+            this.dataSourceExpression = dataSourceExpression;
             return this;
         }
 
         public Field build() {
-            return new Field(name, controlName, getBinding, setBinding, dataSourceBinding);
+            return new Field(name, control, getExpression, setExpression, dataSourceExpression);
         }
     }
 }
