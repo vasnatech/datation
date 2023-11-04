@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 import com.vasnatech.commons.serialize.MediaType;
-import com.vasnatech.datation.SupportedMediaTypes;
+import com.vasnatech.commons.schema.SupportedMediaTypes;
 import com.vasnatech.datation.ui.control.schema.UIControlSchema;
 
 import java.io.IOException;

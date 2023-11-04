@@ -1,6 +1,6 @@
 package com.vasnatech.datation.ui.binding.parse;
 
-import com.vasnatech.datation.parse.ParserException;
+import com.vasnatech.commons.schema.parse.ParserException;
 import org.springframework.expression.Expression;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 

@@ -1,11 +1,11 @@
 package com.vasnatech.datation.ui.binding;
 
 import com.vasnatech.commons.resource.Resources;
-import com.vasnatech.datation.DatationException;
-import com.vasnatech.datation.Modules;
-import com.vasnatech.datation.SupportedMediaTypes;
-import com.vasnatech.datation.load.SchemaLoader;
-import com.vasnatech.datation.load.SchemaLoaderFactories;
+import com.vasnatech.commons.schema.SchemaException;
+import com.vasnatech.commons.schema.Modules;
+import com.vasnatech.commons.schema.SupportedMediaTypes;
+import com.vasnatech.commons.schema.load.SchemaLoader;
+import com.vasnatech.commons.schema.load.SchemaLoaderFactories;
 import com.vasnatech.datation.ui.binding.schema.UIBindingSchema;
 import com.vasnatech.datation.ui.control.UIControlModule;
 import com.vasnatech.datation.ui.control.schema.UIControlSchema;
@@ -44,7 +44,7 @@ public class SchemaLoaderTest {
             );
             final UIBindingSchema schema = schemaLoader.load(in);
             System.out.println(schema);
-        } catch (IOException | DatationException e) {
+        } catch (IOException | SchemaException e) {
             e.printStackTrace();
             assert false;
         }

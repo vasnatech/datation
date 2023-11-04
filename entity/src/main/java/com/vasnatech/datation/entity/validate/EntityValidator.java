@@ -1,10 +1,9 @@
 package com.vasnatech.datation.entity.validate;
 
-import com.vasnatech.commons.function.Functions;
 import com.vasnatech.commons.function.Predicates;
 import com.vasnatech.datation.entity.schema.*;
-import com.vasnatech.datation.validate.SchemaValidator;
-import com.vasnatech.datation.validate.ValidationInfo;
+import com.vasnatech.commons.schema.validate.SchemaValidator;
+import com.vasnatech.commons.schema.validate.ValidationInfo;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;

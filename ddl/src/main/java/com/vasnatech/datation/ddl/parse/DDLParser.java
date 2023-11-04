@@ -3,10 +3,10 @@ package com.vasnatech.datation.ddl.parse;
 import com.vasnatech.datation.ddl.schema.DDLSchema;
 import com.vasnatech.datation.ddl.schema.DDLSchemas;
 import com.vasnatech.datation.ddl.schema.Table;
-import com.vasnatech.datation.schema.Anchor;
-import com.vasnatech.datation.schema.Append;
-import com.vasnatech.datation.parse.ParserException;
-import com.vasnatech.datation.parse.SchemaParser;
+import com.vasnatech.commons.schema.schema.Anchor;
+import com.vasnatech.commons.schema.schema.Append;
+import com.vasnatech.commons.schema.parse.ParserException;
+import com.vasnatech.commons.schema.parse.SchemaParser;
 
 public interface DDLParser extends SchemaParser<DDLSchemas> {
 

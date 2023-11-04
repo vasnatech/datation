@@ -1,8 +1,8 @@
 package com.vasnatech.datation.ui.binding;
 
 import com.vasnatech.commons.serialize.MediaType;
-import com.vasnatech.datation.Module;
-import com.vasnatech.datation.SupportedMediaTypes;
+import com.vasnatech.commons.schema.Module;
+import com.vasnatech.commons.schema.SupportedMediaTypes;
 import com.vasnatech.datation.ui.binding.parse.JacksonJsonUIBindingParserFactory;
 import com.vasnatech.datation.ui.binding.parse.UIBindingParser;
 import com.vasnatech.datation.ui.binding.parse.UIBindingParserFactory;

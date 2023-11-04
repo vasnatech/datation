@@ -1,10 +1,10 @@
 package com.vasnatech.datation.ui.control.schema;
 
 import com.vasnatech.commons.resource.Resources;
-import com.vasnatech.datation.Modules;
-import com.vasnatech.datation.SupportedMediaTypes;
-import com.vasnatech.datation.load.SchemaLoader;
-import com.vasnatech.datation.load.SchemaLoaderFactories;
+import com.vasnatech.commons.schema.Modules;
+import com.vasnatech.commons.schema.SupportedMediaTypes;
+import com.vasnatech.commons.schema.load.SchemaLoader;
+import com.vasnatech.commons.schema.load.SchemaLoaderFactories;
 import com.vasnatech.datation.ui.control.UIControlModule;
 
 import java.io.IOException;

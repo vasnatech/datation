@@ -1,7 +1,7 @@
 package com.vasnatech.datation.ui.binding.validate;
 
 import com.vasnatech.datation.ui.binding.schema.UIBindingSchema;
-import com.vasnatech.datation.validate.SchemaValidatorFactory;
+import com.vasnatech.commons.schema.validate.SchemaValidatorFactory;
 
 public class UIBindingValidatorFactory implements SchemaValidatorFactory<UIBindingSchema, UIBindingValidator> {
 

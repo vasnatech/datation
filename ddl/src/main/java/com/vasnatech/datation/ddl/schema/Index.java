@@ -1,6 +1,6 @@
 package com.vasnatech.datation.ddl.schema;
 
-import com.vasnatech.datation.schema.Node;
+import com.vasnatech.commons.schema.schema.Node;
 
 import java.util.ArrayList;
 import java.util.List;

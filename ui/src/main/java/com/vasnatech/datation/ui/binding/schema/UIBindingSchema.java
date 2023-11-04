@@ -1,6 +1,6 @@
 package com.vasnatech.datation.ui.binding.schema;
 
-import com.vasnatech.datation.schema.AbstractSchema;
+import com.vasnatech.commons.schema.schema.AbstractSchema;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

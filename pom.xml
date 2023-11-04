@@ -10,7 +10,6 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>core</module>
         <module>ddl</module>
         <module>entity</module>
         <module>ui</module>

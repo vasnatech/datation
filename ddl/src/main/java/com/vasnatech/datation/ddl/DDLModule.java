@@ -1,8 +1,8 @@
 package com.vasnatech.datation.ddl;
 
 import com.vasnatech.commons.serialize.MediaType;
-import com.vasnatech.datation.Module;
-import com.vasnatech.datation.SupportedMediaTypes;
+import com.vasnatech.commons.schema.Module;
+import com.vasnatech.commons.schema.SupportedMediaTypes;
 import com.vasnatech.datation.ddl.parse.DDLParser;
 import com.vasnatech.datation.ddl.parse.DDLParserFactory;
 import com.vasnatech.datation.ddl.parse.JacksonJsonDDLParserFactory;

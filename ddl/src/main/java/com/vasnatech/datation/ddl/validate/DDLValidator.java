@@ -6,8 +6,8 @@ import com.vasnatech.datation.ddl.schema.DDLSchemas;
 import com.vasnatech.datation.ddl.schema.ForeignKey;
 import com.vasnatech.datation.ddl.schema.Index;
 import com.vasnatech.datation.ddl.schema.Table;
-import com.vasnatech.datation.validate.SchemaValidator;
-import com.vasnatech.datation.validate.ValidationInfo;
+import com.vasnatech.commons.schema.validate.SchemaValidator;
+import com.vasnatech.commons.schema.validate.ValidationInfo;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;

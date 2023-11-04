@@ -1,7 +1,7 @@
 package com.vasnatech.datation.entity.validate;
 
 import com.vasnatech.datation.entity.schema.EntitySchemas;
-import com.vasnatech.datation.validate.SchemaValidatorFactory;
+import com.vasnatech.commons.schema.validate.SchemaValidatorFactory;
 
 public class EntityValidatorFactory implements SchemaValidatorFactory<EntitySchemas, EntityValidator> {
 

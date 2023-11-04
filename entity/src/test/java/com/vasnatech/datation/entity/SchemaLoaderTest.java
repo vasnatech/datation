@@ -1,12 +1,12 @@
 package com.vasnatech.datation.entity;
 
 import com.vasnatech.commons.resource.Resources;
-import com.vasnatech.datation.DatationException;
-import com.vasnatech.datation.Modules;
-import com.vasnatech.datation.SupportedMediaTypes;
+import com.vasnatech.commons.schema.SchemaException;
+import com.vasnatech.commons.schema.Modules;
+import com.vasnatech.commons.schema.SupportedMediaTypes;
 import com.vasnatech.datation.entity.schema.EntitySchemas;
-import com.vasnatech.datation.load.SchemaLoader;
-import com.vasnatech.datation.load.SchemaLoaderFactories;
+import com.vasnatech.commons.schema.load.SchemaLoader;
+import com.vasnatech.commons.schema.load.SchemaLoaderFactories;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -27,7 +27,7 @@ public class SchemaLoaderTest {
             );
             final EntitySchemas schemas = schemaLoader.load(in);
             System.out.println(schemas);
-        } catch (IOException | DatationException e) {
+        } catch (IOException | SchemaException e) {
             e.printStackTrace();
             assert false;
         }

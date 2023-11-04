@@ -2,8 +2,8 @@ package com.vasnatech.datation.ui.binding.validate;
 
 import com.vasnatech.datation.ui.binding.schema.Field;
 import com.vasnatech.datation.ui.binding.schema.UIBindingSchema;
-import com.vasnatech.datation.validate.SchemaValidator;
-import com.vasnatech.datation.validate.ValidationInfo;
+import com.vasnatech.commons.schema.validate.SchemaValidator;
+import com.vasnatech.commons.schema.validate.ValidationInfo;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;

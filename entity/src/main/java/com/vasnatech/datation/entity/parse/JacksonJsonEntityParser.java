@@ -4,10 +4,10 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 import com.vasnatech.commons.serialize.MediaType;
-import com.vasnatech.datation.SupportedMediaTypes;
+import com.vasnatech.commons.schema.SupportedMediaTypes;
 import com.vasnatech.datation.entity.schema.*;
-import com.vasnatech.datation.schema.Anchor;
-import com.vasnatech.datation.schema.Append;
+import com.vasnatech.commons.schema.schema.Anchor;
+import com.vasnatech.commons.schema.schema.Append;
 
 import java.io.IOException;
 import java.io.InputStream;

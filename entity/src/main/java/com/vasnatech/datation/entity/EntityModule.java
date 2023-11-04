@@ -1,8 +1,8 @@
 package com.vasnatech.datation.entity;
 
 import com.vasnatech.commons.serialize.MediaType;
-import com.vasnatech.datation.Module;
-import com.vasnatech.datation.SupportedMediaTypes;
+import com.vasnatech.commons.schema.Module;
+import com.vasnatech.commons.schema.SupportedMediaTypes;
 import com.vasnatech.datation.entity.parse.EntityParser;
 import com.vasnatech.datation.entity.parse.EntityParserFactory;
 import com.vasnatech.datation.entity.parse.JacksonJsonEntityParserFactory;

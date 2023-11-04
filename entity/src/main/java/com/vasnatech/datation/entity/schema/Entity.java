@@ -1,7 +1,7 @@
 package com.vasnatech.datation.entity.schema;
 
-import com.vasnatech.datation.schema.Append;
-import com.vasnatech.datation.schema.Node;
+import com.vasnatech.commons.schema.schema.Append;
+import com.vasnatech.commons.schema.schema.Node;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;

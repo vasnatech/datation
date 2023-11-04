@@ -3,10 +3,10 @@ package com.vasnatech.datation.entity.parse;
 import com.vasnatech.datation.entity.schema.Entity;
 import com.vasnatech.datation.entity.schema.EntitySchema;
 import com.vasnatech.datation.entity.schema.EntitySchemas;
-import com.vasnatech.datation.parse.ParserException;
-import com.vasnatech.datation.parse.SchemaParser;
-import com.vasnatech.datation.schema.Anchor;
-import com.vasnatech.datation.schema.Append;
+import com.vasnatech.commons.schema.parse.ParserException;
+import com.vasnatech.commons.schema.parse.SchemaParser;
+import com.vasnatech.commons.schema.schema.Anchor;
+import com.vasnatech.commons.schema.schema.Append;
 
 public interface EntityParser extends SchemaParser<EntitySchemas> {
 

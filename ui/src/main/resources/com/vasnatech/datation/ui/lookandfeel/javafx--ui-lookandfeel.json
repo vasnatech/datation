@@ -1,0 +1,13 @@
+{
+  "meta": {
+    "@schema-type": "ui-lookandfeel",
+    "@schema-version": "1"
+  },
+  "text": {
+
+  },
+  "selection-box": "combo box, radio group or drop box like control",
+  "check": "check box",
+  "button": "clickable button",
+  "empty": "empty space holder"
+}
