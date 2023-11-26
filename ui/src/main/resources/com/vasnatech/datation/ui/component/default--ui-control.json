@@ -1,0 +1,282 @@
+{
+  "meta": {
+    "@schema-type": "ui-control",
+    "@schema-version": "1"
+  },
+  "properties": {
+    "visible": {
+      "type": "boolean",
+      "default": true,
+      "title": "Visible"
+    },
+    "enabled": {
+      "type": "boolean",
+      "default": true,
+      "title": "Enabled"
+    },
+    "styles": {
+      "type": "string[]",
+      "title": "Styles"
+    },
+    "multiline": {
+      "type": "boolean",
+      "default": false,
+      "title": "Multiline"
+    },
+    "prompt": {
+      "type": "string",
+      "title": "Prompt Text"
+    },
+    "text": {
+      "type": "string",
+      "title": "Text"
+    },
+    "editable": {
+      "type": "boolean",
+      "default": true,
+      "title": "Editable"
+    },
+    "alignment": {
+      "type": ["TOP_LEFT", "TOP_CENTER", "TOP_RIGHT", "CENTER_LEFT", "CENTER_CENTER", "CENTER_RIGHT", "BOTTOM_LEFT", "BOTTOM_CENTER", "BOTTOM_RIGHT"],
+      "default": "TOP_LEFT",
+      "title": "Alignment"
+    },
+    "border-alignment": {
+      "type": ["LEFT", "TOP", "RIGHT", "BOTTOM", "CENTER"],
+      "default": "TOP_LEFT",
+      "title": "Alignment"
+    },
+    "selection": {
+      "type": "string",
+      "title": "Selected Value"
+    },
+    "selected": {
+      "type": "boolean",
+      "default": false,
+      "title": "Selected"
+    },
+    "text-alignment": {
+      "type": ["LEFT", "CENTER", "RIGHT"],
+      "default": "LEFT",
+      "title": "Text Alignment"
+    },
+    "orientation": {
+      "type": ["HORIZONTAL", "VERTICAL"],
+      "default": "HORIZONTAL",
+      "title": "Orientation"
+    },
+    "resource": {
+      "type": "uri",
+      "title": "Resource"
+    },
+    "preserve-ratio": {
+      "type": "boolean",
+      "default": true,
+      "title": "Preserve Ratio"
+    },
+    "indeterminate": {
+      "type": "boolean",
+      "default": false,
+      "title": "Indeterminate"
+    },
+    "position": {
+      "type": "float",
+      "default": 0.5,
+      "title": "Progress"
+    },
+    "button-type": {
+      "type": ["CANCEL", "SAVE", "DELETE", "RESET", "CUSTOM"],
+      "default": "CANCEL",
+      "title": "Type"
+    },
+    "group": {
+      "type": "string",
+      "title": "Group"
+    },
+    "margin": {
+      "type": "insets",
+      "default": "0,0,0,0",
+      "title": "Margin"
+    },
+    "padding": {
+      "type": "insets",
+      "default": "0,0,0,0",
+      "title": "Padding"
+    },
+    "row": {
+      "type": "integer",
+      "title": "Row Index"
+    },
+    "column": {
+      "type": "integer",
+      "title": "Column Index"
+    },
+    "row-span": {
+      "type": "integer",
+      "default": 1,
+      "title": "Row Span"
+    },
+    "column-span": {
+      "type": "integer",
+      "default": 1,
+      "title": "Column Span"
+    },
+    "horizontal-grow": {
+      "type": "float",
+      "default": 0.5,
+      "title": "Horizontal Grow"
+    },
+    "vertical-grow": {
+      "type": "float",
+      "default": 0.5,
+      "title": "Vertical Grow"
+    },
+    "grow": {
+      "type": "float",
+      "default": 0.5,
+      "title": "Grow"
+    },
+    "bounds": {
+      "type": "rectangle",
+      "title": "Grow"
+    },
+    "size": {
+      "type": "dimension",
+      "title": "Grow"
+    },
+    "width": {
+      "type": "float",
+      "title": "Width"
+    },
+    "height": {
+      "type": "float",
+      "title": "Height"
+    },
+    "closable": {
+      "type": "boolean",
+      "default": false,
+      "title": "Closable"
+    },
+    "sortable": {
+      "type": "boolean",
+      "default": true,
+      "title": "Sortable"
+    },
+    "sorting": {
+      "type": ["ASC", "DESC"],
+      "default": "ASC",
+      "title": "Sorting"
+    }
+  },
+  "events": {
+    "action": {
+      "value": "string"
+    }
+  },
+  "controls": {
+    "label": {
+      "properties": ["visible", "enabled", "styles", "text", "text-alignment", "padding"],
+      "events": ["action"]
+    },
+    "text-field": {
+      "properties": ["visible", "enabled", "styles", "multiline", "prompt", "text", "text-alignment", "editable", "padding"],
+      "events": ["action"]
+    },
+    "password-field": {
+      "properties": ["visible", "enabled", "styles", "prompt", "text", "text-alignment", "editable", "padding"],
+      "events": ["action"]
+    },
+    "combo-box": {
+      "properties": ["visible", "enabled", "styles", "prompt", "selection", "text-alignment", "padding"],
+      "events": ["action"]
+    },
+    "list-box": {
+      "properties": ["visible", "enabled", "styles", "selection", "text-alignment", "padding"],
+      "events": ["action"]
+    },
+    "check": {
+      "properties": ["visible", "enabled", "styles", "selected", "text", "text-alignment", "padding"],
+      "events": ["action"]
+    },
+    "radio": {
+      "properties": ["visible", "enabled", "styles", "selected", "text", "text-alignment", "group", "padding"],
+      "events": ["action"]
+    },
+    "date-picker": {
+      "properties": ["visible", "enabled", "styles", "prompt", "editable", "text-alignment", "padding"],
+      "events": ["action"]
+    },
+    "button": {
+      "properties": ["visible", "enabled", "styles", "text", "text-alignment", "button-type", "padding"],
+      "events": ["action"]
+    },
+    "separator": {
+      "properties": ["visible", "enabled", "styles", "orientation", "padding"],
+      "events": ["action"]
+    },
+    "image": {
+      "properties": ["visible", "enabled", "styles", "resource", "preserve-ratio", "padding"],
+      "events": ["action"]
+    },
+    "progress-bar": {
+      "properties": ["visible", "enabled", "styles", "indeterminate", "position", "padding"],
+      "events": ["action"]
+    },
+    "empty": {
+      "properties": ["visible"],
+      "events": []
+    },
+    "table-column": {
+      "properties": ["editable", "sortable", "sorting", "text"],
+      "events": []
+    }
+  },
+  "containers": {
+    "pane": {
+      "properties": ["visible", "enabled", "styles", "padding"],
+      "child-properties": ["bounds"]
+    },
+    "accordion": {
+      "properties": ["visible", "enabled", "styles", "text-alignment", "padding"],
+      "child-properties": ["text"],
+      "events": ["action"]
+    },
+    "anchor": {
+      "properties": ["visible", "enabled", "styles", "padding"],
+      "child-properties": ["margin"]
+    },
+    "border": {
+      "properties": ["visible", "enabled", "styles", "padding"],
+      "child-properties": ["size", "margin", "border-alignment"]
+    },
+    "flow": {
+      "properties": ["visible", "enabled", "styles", "orientation", "padding"],
+      "child-properties": ["size", "margin"]
+    },
+    "grid": {
+      "properties": ["visible", "enabled", "styles", "padding"],
+      "child-properties": ["margin", "size", "horizontal-grow", "vertical-grow", "row", "column", "row-span", "column-span", "alignment"]
+    },
+    "box": {
+      "properties": ["visible", "enabled", "styles", "orientation", "padding"],
+      "child-properties": ["margin", "size", "grow"]
+    },
+    "split": {
+      "properties": ["visible", "enabled", "styles", "orientation", "position", "padding"],
+      "child-properties": ["margin"]
+    },
+    "tab": {
+      "properties": ["visible", "enabled", "styles", "padding"],
+      "child-properties": ["text", "selected", "closable"],
+      "events": ["action"]
+    },
+    "titled": {
+      "properties": ["visible", "enabled", "styles", "text", "text-alignment", "padding"],
+      "child-properties": ["margin"]
+    },
+    "table": {
+      "properties": ["visible", "enabled", "styles", "editable", "padding"],
+      "child-properties": ["width"]
+    }
+  }
+}

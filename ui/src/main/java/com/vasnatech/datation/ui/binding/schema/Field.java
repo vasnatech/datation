@@ -1,8 +1,6 @@
 package com.vasnatech.datation.ui.binding.schema;
 
-import com.vasnatech.datation.ui.binding.parse.ExpressionParser;
-import com.vasnatech.datation.ui.control.schema.Control;
-import com.vasnatech.datation.ui.control.schema.UIControlFactory;
+import com.vasnatech.datation.ui.component.schema.Control;
 import org.springframework.expression.Expression;
 
 import java.util.StringJoiner;

@@ -7,7 +7,7 @@ import com.vasnatech.commons.serialize.MediaType;
 import com.vasnatech.commons.schema.SupportedMediaTypes;
 import com.vasnatech.datation.ui.binding.schema.Field;
 import com.vasnatech.datation.ui.binding.schema.UIBindingSchema;
-import com.vasnatech.datation.ui.control.schema.UIControlFactory;
+import com.vasnatech.datation.ui.component.schema.UIComponentFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -104,7 +104,7 @@ public class JacksonJsonUIBindingParser implements UIBindingParser {
             while (parser.currentToken() == JsonToken.FIELD_NAME) {
                 String fieldName = parser.currentName();
                 if ("control".equals(fieldName)) {
-                    fieldBuilder.control(UIControlFactory.instance().create(parser.nextTextValue()));
+                    fieldBuilder.control(UIComponentFactory.instance().control(parser.nextTextValue()));
                 } else if ("binding".equals(fieldName)) {
                     fieldBuilder.binding(ExpressionParser.instance().create(parser.nextTextValue()));
                 } else if ("getter".equals(fieldName)) {

@@ -1,39 +1,44 @@
-package com.vasnatech.datation.ui.control.schema;
+package com.vasnatech.datation.ui.component.schema;
 
 import com.vasnatech.commons.resource.Resources;
 import com.vasnatech.commons.schema.Modules;
 import com.vasnatech.commons.schema.SupportedMediaTypes;
 import com.vasnatech.commons.schema.load.SchemaLoader;
 import com.vasnatech.commons.schema.load.SchemaLoaderFactories;
-import com.vasnatech.datation.ui.control.UIControlModule;
+import com.vasnatech.datation.ui.component.UIComponentModule;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
-public class DefaultUIControlFactory extends UIControlFactory {
+public class DefaultUIComponentFactory extends UIComponentFactory {
 
-    final UIControlSchema schema;
+    final UIComponentSchema schema;
 
-    public DefaultUIControlFactory() {
+    public DefaultUIComponentFactory() {
         this(loadDefaultSchema());
     }
 
-    public DefaultUIControlFactory(UIControlSchema schema) {
+    public DefaultUIComponentFactory(UIComponentSchema schema) {
         this.schema = schema;
     }
 
     @Override
-    public Control create(String name) {
+    public Control control(String name) {
         return schema.getControl(name);
     }
 
-    static UIControlSchema loadDefaultSchema() {
-        Modules.add(UIControlModule.instance());
-        try (InputStream in = Resources.asInputStream(UIControlModule.class, "default--ui-control.json")) {
+    @Override
+    public Container container(String name) {
+        return schema.getContainer(name);
+    }
+
+    static UIComponentSchema loadDefaultSchema() {
+        Modules.add(UIComponentModule.instance());
+        try (InputStream in = Resources.asInputStream(UIComponentModule.class, "default--ui-control.json")) {
             final SchemaLoader schemaLoader = SchemaLoaderFactories.get(SupportedMediaTypes.JSON).create(
                     Map.of(
-                            "normalize", Boolean.FALSE,
+                            "normalize", Boolean.TRUE,
                             "validate", Boolean.TRUE
                     )
             );

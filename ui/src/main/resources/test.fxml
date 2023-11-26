@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1240.0" prefWidth="1173.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <TitledPane layoutX="105.0" layoutY="110.0" prefHeight="405.0" prefWidth="497.0">
+         <content>
+            <GridPane>
+               <children>
+                  <TextField prefHeight="20.0" text="1" GridPane.hgrow="ALWAYS" GridPane.vgrow="NEVER" />
+                  <GridPane GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
+                     <children>
+                        <TextField text="2" GridPane.hgrow="ALWAYS" GridPane.vgrow="NEVER" />
+                        <TextArea prefHeight="200.0" prefWidth="200.0" promptText="3" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS" />
+                     </children>
+                      <rowConstraints>
+                          <RowConstraints />
+                          <RowConstraints />
+                      </rowConstraints>
+                     <columnConstraints>
+                        <ColumnConstraints />
+                     </columnConstraints>
+                  </GridPane>
+               </children>
+               <columnConstraints>
+                  <ColumnConstraints />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints />
+                  <RowConstraints />
+               </rowConstraints>
+            </GridPane>
+         </content>
+      </TitledPane>
+   </children>
+</Pane>
