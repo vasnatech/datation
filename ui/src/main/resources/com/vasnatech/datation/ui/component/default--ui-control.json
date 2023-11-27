@@ -229,6 +229,10 @@
     "table-column": {
       "properties": ["editable", "sortable", "sorting", "text"],
       "events": []
+    },
+    "tree": {
+      "properties": ["visible", "enabled", "editable"],
+      "events": []
     }
   },
   "containers": {

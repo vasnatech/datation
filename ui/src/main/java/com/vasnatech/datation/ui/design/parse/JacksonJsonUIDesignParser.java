@@ -134,6 +134,7 @@ public class JacksonJsonUIDesignParser implements UIDesignParser {
                             parseComponent(parser, elementBuilder::child);
                         }
                     }
+                    parser.nextToken();
                 } else {
                     parser.nextToken();
                     Object fieldValue = parseValue(parser);
