@@ -25,12 +25,12 @@ public class DefaultUIComponentFactory extends UIComponentFactory {
 
     @Override
     public Control control(String name) {
-        return schema.getControl(name);
+        return schema.control(name);
     }
 
     @Override
     public Container container(String name) {
-        return schema.getContainer(name);
+        return schema.container(name);
     }
 
     static UIComponentSchema loadDefaultSchema() {

@@ -4,56 +4,15 @@ import com.vasnatech.commons.schema.schema.Node;
 
 import java.util.LinkedHashMap;
 
-public class Field extends Node {
-
-    final DDL.Column ddl;
-    final FieldType type;
-    final String itemType;
-    final FieldFetch fetch;
-    final boolean nullable;
-    final LinkedHashMap<String, ?> enumValues;
-
-    Field(
-            String name,
-            DDL.Column ddl,
-            FieldType type,
-            String itemType,
-            FieldFetch fetch,
-            boolean nullable,
-            LinkedHashMap<String, ?> enumValues
-    ) {
-        super(name);
-        this.ddl = ddl;
-        this.type = type;
-        this.itemType = itemType;
-        this.fetch = fetch;
-        this.nullable = nullable;
-        this.enumValues = enumValues;
-    }
-
-    public DDL.Column getDDL() {
-        return ddl;
-    }
-
-    public FieldType getType() {
-        return type;
-    }
-
-    public String getItemType() {
-        return itemType;
-    }
-
-    public FieldFetch getFetch() {
-        return fetch;
-    }
-
-    public boolean isNullable() {
-        return nullable;
-    }
-
-    public LinkedHashMap<String, ?> getEnumValues() {
-        return enumValues;
-    }
+public record Field(
+        String name,
+        DDL.Column ddl,
+        FieldType type,
+        String itemType,
+        FieldFetch fetch,
+        boolean nullable,
+        LinkedHashMap<String, ?> enumValues
+) implements Node {
 
     public boolean isEnum() {
         return !enumValues.isEmpty();

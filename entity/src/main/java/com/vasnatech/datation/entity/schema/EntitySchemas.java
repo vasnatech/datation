@@ -1,31 +1,19 @@
 package com.vasnatech.datation.entity.schema;
 
-import com.vasnatech.commons.schema.schema.Node;
-import com.vasnatech.commons.schema.schema.Schema;
+import com.vasnatech.commons.schema.schema.AbstractSchema;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class EntitySchemas extends Node implements Schema {
-    final LinkedHashMap<String, String> meta;
+public class EntitySchemas extends AbstractSchema {
     final LinkedHashMap<String, EntitySchema> schemas;
 
     private EntitySchemas(LinkedHashMap<String, String> meta, LinkedHashMap<String, EntitySchema> schemas) {
-        super("entities");
-        this.meta = meta;
+        super("entities", "entity", meta);
         this.schemas = schemas;
     }
 
-    @Override
-    public String type() {
-        return "entity";
-    }
-
-    public Map<String, String> getMeta() {
-        return meta;
-    }
-
-    public Map<String, EntitySchema> getSchemas() {
+    public Map<String, EntitySchema> schemas() {
         return schemas;
     }
 
@@ -48,7 +36,7 @@ public class EntitySchemas extends Node implements Schema {
         }
 
         public Builder schema(EntitySchema schema) {
-            this.schemas.put(schema.getName(), schema);
+            this.schemas.put(schema.name(), schema);
             return this;
         }
 

@@ -4,7 +4,7 @@ public record Rectangle(int x, int y, int width, int height) {
 
     @Override
     public String toString() {
-        return x + "," + y + width + "," + height;
+        return x + "," + y + "," + width + "," + height;
     }
 
     public static Rectangle valueOf(String valueAsText) {

@@ -17,7 +17,7 @@ public enum RelationType {
         this.collection = collection;
     }
 
-    public String getValue() {
+    public String value() {
         return value;
     }
 
@@ -30,6 +30,6 @@ public enum RelationType {
     }
 
     public static RelationType finByValue(String value) {
-        return Stream.of(values()).filter(it -> it.getValue().equals(value)).findAny().orElse(null);
+        return Stream.of(values()).filter(it -> it.value().equals(value)).findAny().orElse(null);
     }
 }

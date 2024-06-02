@@ -14,7 +14,7 @@ public class UIDesignSchema extends AbstractSchema {
         this.root = root;
     }
 
-    public Element getRoot() {
+    public Element root() {
         return root;
     }
 
@@ -23,7 +23,7 @@ public class UIDesignSchema extends AbstractSchema {
     }
 
     public static class Builder {
-        String name = "design";
+        String name;
         LinkedHashMap<String, String> meta = new LinkedHashMap<>();
         Element element;
 

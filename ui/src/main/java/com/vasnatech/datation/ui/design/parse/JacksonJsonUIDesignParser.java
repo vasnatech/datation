@@ -78,7 +78,13 @@ public class JacksonJsonUIDesignParser implements UIDesignParser {
 
     void parseSchema(JsonParser parser, UIDesignSchema.Builder schemaBuilder) throws IOException {
         while (parser.currentToken() == JsonToken.FIELD_NAME) {
-            parseComponent(parser, schemaBuilder::element);
+            String fieldName = parser.currentName();
+            if ("name".equals(fieldName)) {
+                schemaBuilder.name(parser.nextTextValue());
+                parser.nextToken();
+            } else {
+                parseComponent(parser, schemaBuilder::element);
+            }
         }
     }
 
@@ -191,7 +197,7 @@ public class JacksonJsonUIDesignParser implements UIDesignParser {
 
     @Override
     public UIDesignSchema normalize(UIDesignSchema schema) {
-        normalizeElement(null, schema.getRoot());
+        normalizeElement(null, schema.root());
         return schema;
     }
 
@@ -200,29 +206,19 @@ public class JacksonJsonUIDesignParser implements UIDesignParser {
             return;
         }
 
-        child.properties().entrySet().forEach(entry -> {
-            Property property = child.type().properties().get(entry.getKey());
-            if (property == null) {
-                entry.setValue(null);
-            } else {
-                Object normalizedValue = normalizeValue(property, entry.getValue());
-                entry.setValue(normalizedValue);
-            }
+        child.type().properties().forEach((propertyName, property) -> {
+            Object propertyValue = child.properties().get(propertyName);
+            Object normalizedValue = normalizeValue(property, propertyValue);
+            child.properties().put(propertyName, normalizedValue);
         });
 
-        child.containerProperties().entrySet().forEach(entry -> {
-            if (parent != null && (parent.type() instanceof Container container)) {
-                Property property = container.childProperties().get(entry.getKey());
-                if (property == null) {
-                    entry.setValue(null);
-                } else {
-                    Object normalizedValue = normalizeValue(property, entry.getValue());
-                    entry.setValue(normalizedValue);
-                }
-            } else {
-                entry.setValue(null);
-            }
-        });
+        if (parent != null && (parent.type() instanceof Container container)) {
+            container.childProperties().forEach((propertyName, property) -> {
+                Object propertyValue = child.containerProperties().get(propertyName);
+                Object normalizedValue = normalizeValue(property, propertyValue);
+                child.containerProperties().put(propertyName, normalizedValue);
+            });
+        }
 
         if (child.type().isContainer()) {
             child.children().values().forEach(element -> normalizeElement(child, element));

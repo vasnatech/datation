@@ -25,11 +25,11 @@ public class UIBindingSchema extends AbstractSchema {
                 .toString();
     }
 
-    public LinkedHashMap<String, Field> getFields() {
+    public LinkedHashMap<String, Field> fields() {
         return fields;
     }
 
-    public Field getField(String name) {
+    public Field field(String name) {
         return fields.get(name);
     }
 
@@ -63,7 +63,7 @@ public class UIBindingSchema extends AbstractSchema {
         }
 
         public Builder field(Field field) {
-            this.fields.put(field.name, field);
+            this.fields.put(field.name(), field);
             return this;
         }
 

@@ -4,6 +4,7 @@
     "@schema-version": "1",
     "@control-schema": "default"
   },
+  "name": "contact",
   "root::container::titled": {
     "text": "Contact",
     "children": {

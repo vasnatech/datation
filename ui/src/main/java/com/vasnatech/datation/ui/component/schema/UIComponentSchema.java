@@ -30,31 +30,31 @@ public class UIComponentSchema extends AbstractSchema {
                 .toString();
     }
 
-    public LinkedHashMap<String, Property> getProperties() {
+    public LinkedHashMap<String, Property> properties() {
         return properties;
     }
 
-    public LinkedHashMap<String, Event> getEvents() {
+    public LinkedHashMap<String, Event> events() {
         return events;
     }
 
-    public LinkedHashMap<String, Control> getControls() {
+    public LinkedHashMap<String, Control> controls() {
         return controls;
     }
 
-    public Control getControl(String name) {
+    public Control control(String name) {
         return controls.get(name);
     }
 
-    public LinkedHashMap<String, Container> getContainers() {
+    public LinkedHashMap<String, Container> containers() {
         return containers;
     }
 
-    public Container getContainer(String name) {
+    public Container container(String name) {
         return containers.get(name);
     }
 
-    public Component getComponent(String name) {
+    public Component component(String name) {
         return controls.containsKey(name) ? controls.get(name) : containers.get(name);
     }
 

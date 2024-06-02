@@ -5,30 +5,12 @@ import com.vasnatech.commons.schema.schema.Node;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Index extends Node {
-
-    final boolean unique;
-    final List<String> columns;
-    final boolean real;
-
-    public Index(String name, boolean unique, List<String> columns, boolean real) {
-        super(name);
-        this.unique = unique;
-        this.columns = columns;
-        this.real = real;
-    }
-
-    public boolean isUnique() {
-        return unique;
-    }
-
-    public List<String> getColumns() {
-        return columns;
-    }
-
-    public boolean isReal() {
-        return real;
-    }
+public record Index(
+        String name,
+        boolean unique,
+        List<String> columns,
+        boolean real
+) implements Node {
 
     public static Builder builder() {
         return new Builder();

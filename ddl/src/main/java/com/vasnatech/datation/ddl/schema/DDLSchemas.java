@@ -1,31 +1,19 @@
 package com.vasnatech.datation.ddl.schema;
 
-import com.vasnatech.commons.schema.schema.Node;
-import com.vasnatech.commons.schema.schema.Schema;
+import com.vasnatech.commons.schema.schema.AbstractSchema;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class DDLSchemas extends Node implements Schema {
-    final LinkedHashMap<String, String> meta;
+public class DDLSchemas extends AbstractSchema {
     final LinkedHashMap<String, DDLSchema> schemas;
 
     private DDLSchemas(LinkedHashMap<String, String> meta, LinkedHashMap<String, DDLSchema> schemas) {
-        super("db");
-        this.meta = meta;
+        super("db", "ddl", meta);
         this.schemas = schemas;
     }
 
-    @Override
-    public String type() {
-        return "ddl";
-    }
-
-    public Map<String, String> getMeta() {
-        return meta;
-    }
-
-    public Map<String, DDLSchema> getSchemas() {
+    public Map<String, DDLSchema> schemas() {
         return schemas;
     }
 
@@ -48,7 +36,7 @@ public class DDLSchemas extends Node implements Schema {
         }
 
         public Builder schema(DDLSchema schema) {
-            this.schemas.put(schema.getName(), schema);
+            this.schemas.put(schema.name(), schema);
             return this;
         }
 

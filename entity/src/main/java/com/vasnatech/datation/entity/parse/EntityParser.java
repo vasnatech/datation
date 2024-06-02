@@ -13,21 +13,21 @@ public interface EntityParser extends SchemaParser<EntitySchemas> {
     @Override
     default EntitySchemas normalize(EntitySchemas schemas) {
         EntitySchemas.Builder schemasBuilder = EntitySchemas.builder();
-        schemasBuilder.meta(schemas.getMeta());
-        for (EntitySchema schema : schemas.getSchemas().values()) {
+        schemasBuilder.meta(schemas.meta());
+        for (EntitySchema schema : schemas.schemas().values()) {
             schemasBuilder.schema(normalize(schema));
         }
         return schemasBuilder.build();
     }
 
     private EntitySchema normalize(EntitySchema schema) {
-        if (schema.getDefinitions().isEmpty()) {
+        if (schema.definitions().isEmpty()) {
             return schema;
         }
         EntitySchema.Builder schemaBuilder = EntitySchema.builder();
-        schemaBuilder.name(schema.getName());
-        schemaBuilder.ddl(schema.getDDL());
-        for (Entity entity : schema.getEntities().values()) {
+        schemaBuilder.name(schema.name());
+        schemaBuilder.ddl(schema.ddl());
+        for (Entity entity : schema.entities().values()) {
             schemaBuilder.entity(normalize(schema, entity));
         }
         return schemaBuilder.build();
@@ -36,25 +36,25 @@ public interface EntityParser extends SchemaParser<EntitySchemas> {
     private Entity normalize(EntitySchema schema, Entity entity) {
         Entity.Builder entityBuilder = Entity.builder();
         entityBuilder
-                .name(entity.getName())
-                .ddl(entity.getDDL())
-                .ids(entity.getIds())
-                .inherits(entity.getInherits());
-        for (Append append : entity.getAppends().values()) {
-            Entity definition = schema.getDefinitions().get(append.getName());
+                .name(entity.name())
+                .ddl(entity.ddl())
+                .ids(entity.ids())
+                .inherits(entity.inherits());
+        for (Append append : entity.appends().values()) {
+            Entity definition = schema.definitions().get(append.name());
             if (definition == null) {
-                throw new ParserException(String.format("Unable to find definition %s in %s.%s", append.getName(), schema.getName(), entity.getName()));
+                throw new ParserException(String.format("Unable to find definition %s in %s.%s", append.name(), schema.name(), entity.name()));
             }
-            if (append.getAnchor() == Anchor.HEAD) {
-                entityBuilder.fields(definition.getFields());
+            if (append.anchor() == Anchor.HEAD) {
+                entityBuilder.fields(definition.fields());
             }
-            entityBuilder.ids(definition.getIds());
+            entityBuilder.ids(definition.ids());
         }
-        entityBuilder.fields(entity.getFields());
-        for (Append append : entity.getAppends().values()) {
-            Entity definition = schema.getDefinitions().get(append.getName());
-            if (append.getAnchor() == Anchor.TAIL) {
-                entityBuilder.fields(definition.getFields());
+        entityBuilder.fields(entity.fields());
+        for (Append append : entity.appends().values()) {
+            Entity definition = schema.definitions().get(append.name());
+            if (append.anchor() == Anchor.TAIL) {
+                entityBuilder.fields(definition.fields());
             }
         }
 

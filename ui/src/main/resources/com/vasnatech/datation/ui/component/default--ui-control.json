@@ -138,11 +138,11 @@
     },
     "bounds": {
       "type": "rectangle",
-      "title": "Grow"
+      "title": "Bounds"
     },
     "size": {
       "type": "dimension",
-      "title": "Grow"
+      "title": "Size"
     },
     "width": {
       "type": "float",

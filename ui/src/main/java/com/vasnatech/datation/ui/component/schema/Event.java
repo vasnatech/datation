@@ -1,9 +1,11 @@
 package com.vasnatech.datation.ui.component.schema;
 
+import com.vasnatech.commons.schema.schema.Node;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public record Event(String name, Map<String, ?> properties) {
+public record Event(String name, Map<String, ?> properties) implements Node {
 
     public static Builder builder() {
         return new Builder();

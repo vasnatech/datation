@@ -1,6 +1,5 @@
 package com.vasnatech.datation.ddl.schema;
 
-
 import com.vasnatech.commons.schema.schema.Append;
 import com.vasnatech.commons.schema.schema.Node;
 
@@ -9,58 +8,15 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Table extends Node {
+public record Table(
+        String name,
+        LinkedHashMap<String, Column> columns,
+        List<String> primaryKey,
+        LinkedHashMap<String, Index> indexes,
+        LinkedHashMap<String, ForeignKey> foreignKeys,
+        LinkedHashMap<String, Append> appends
+) implements Node {
 
-    final LinkedHashMap<String, Column> columns;
-    final List<String> primaryKey;
-    final LinkedHashMap<String, Index> indexes;
-    final LinkedHashMap<String, ForeignKey> foreignKeys;
-    final LinkedHashMap<String, Append> appends;
-
-    Table(
-            String name,
-            LinkedHashMap<String, Column> columns,
-            List<String> primaryKey,
-            LinkedHashMap<String, Index> indexes,
-            LinkedHashMap<String, ForeignKey> foreignKeys,
-            LinkedHashMap<String, Append> appends
-    ) {
-        super(name);
-        this.columns = columns;
-        this.primaryKey = primaryKey;
-        this.indexes = indexes;
-        this.foreignKeys = foreignKeys;
-        this.appends = appends;
-    }
-
-    public LinkedHashMap<String, Column> getColumns() {
-        return columns;
-    }
-
-    public List<String> getPrimaryKey() {
-        return primaryKey;
-    }
-
-    public LinkedHashMap<String, Index> getIndexes() {
-        return indexes;
-    }
-
-    public LinkedHashMap<String, ForeignKey> getForeignKeys() {
-        return foreignKeys;
-    }
-
-    public LinkedHashMap<String, Append> getAppends() {
-        return appends;
-    }
-
-    public Builder toBuilder() {
-        return new Builder()
-                .name(name)
-                .columns(columns)
-                .primaryKey(primaryKey)
-                .indexes(indexes)
-                .foreignKeys(foreignKeys);
-    }
     public static Builder builder() {
         return new Builder();
     }
@@ -79,7 +35,7 @@ public class Table extends Node {
         }
 
         public Builder column(Column column) {
-            this.columns.put(column.getName(), column);
+            this.columns.put(column.name(), column);
             return this;
         }
 
@@ -99,7 +55,7 @@ public class Table extends Node {
         }
 
         public Builder index(Index index) {
-            this.indexes.put(index.getName(), index);
+            this.indexes.put(index.name(), index);
             return this;
         }
 
@@ -109,7 +65,7 @@ public class Table extends Node {
         }
 
         public Builder foreignKey(ForeignKey foreignKey) {
-            this.foreignKeys.put(foreignKey.getName(), foreignKey);
+            this.foreignKeys.put(foreignKey.name(), foreignKey);
             return this;
         }
 
@@ -119,7 +75,7 @@ public class Table extends Node {
         }
 
         public Builder append(Append append) {
-            this.appends.put(append.getName(), append);
+            this.appends.put(append.name(), append);
             return this;
         }
 

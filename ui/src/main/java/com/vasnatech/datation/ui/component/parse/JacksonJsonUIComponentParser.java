@@ -108,8 +108,7 @@ public class JacksonJsonUIComponentParser implements UIComponentParser {
                 if ("type".equals(fieldName)) {
                     parsePropertyType(parser, propertyBuilder);
                 } else if ("default".equals(fieldName)) {
-                    parser.nextToken();
-                    //TODO implement default value.
+                    propertyBuilder.defaultValue(parser.nextTextValue());
                 } else if ("title".equals(fieldName)) {
                     propertyBuilder.title(parser.nextTextValue());
                 }
@@ -244,32 +243,32 @@ public class JacksonJsonUIComponentParser implements UIComponentParser {
 
     @Override
     public UIComponentSchema normalize(UIComponentSchema schema) {
-        schema.getControls().values().stream()
+        schema.controls().values().stream()
                 .map(Control::properties)
                 .map(Map::entrySet)
                 .flatMap(Collection::stream)
-                .forEach(entry -> entry.setValue(schema.getProperties().get(entry.getKey())));
-        schema.getControls().values().stream()
+                .forEach(entry -> entry.setValue(schema.properties().get(entry.getKey())));
+        schema.controls().values().stream()
                 .map(Control::events)
                 .map(Map::entrySet)
                 .flatMap(Collection::stream)
-                .forEach(entry -> entry.setValue(schema.getEvents().get(entry.getKey())));
+                .forEach(entry -> entry.setValue(schema.events().get(entry.getKey())));
 
-        schema.getContainers().values().stream()
+        schema.containers().values().stream()
                 .map(Container::properties)
                 .map(Map::entrySet)
                 .flatMap(Collection::stream)
-                .forEach(entry -> entry.setValue(schema.getProperties().get(entry.getKey())));
-        schema.getContainers().values().stream()
+                .forEach(entry -> entry.setValue(schema.properties().get(entry.getKey())));
+        schema.containers().values().stream()
                 .map(Container::childProperties)
                 .map(Map::entrySet)
                 .flatMap(Collection::stream)
-                .forEach(entry -> entry.setValue(schema.getProperties().get(entry.getKey())));
-        schema.getContainers().values().stream()
+                .forEach(entry -> entry.setValue(schema.properties().get(entry.getKey())));
+        schema.containers().values().stream()
                 .map(Container::events)
                 .map(Map::entrySet)
                 .flatMap(Collection::stream)
-                .forEach(entry -> entry.setValue(schema.getEvents().get(entry.getKey())));
+                .forEach(entry -> entry.setValue(schema.events().get(entry.getKey())));
         return schema;
     }
 }

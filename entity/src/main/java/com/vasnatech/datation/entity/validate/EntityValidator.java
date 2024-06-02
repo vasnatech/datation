@@ -15,36 +15,36 @@ public class EntityValidator implements SchemaValidator<EntitySchemas> {
     @Override
     public List<ValidationInfo> validate(EntitySchemas schemas) {
         ValidationInfo.Builder resultBuilder = ValidationInfo.builder();
-        if (!schemas.getMeta().containsKey("@schema-type")) {
+        if (!schemas.meta().containsKey("@schema-type")) {
             resultBuilder.message("meta @schema-type is missing.");
         }
-        if (!schemas.getMeta().containsKey("@schema-version")) {
+        if (!schemas.meta().containsKey("@schema-version")) {
             resultBuilder.message("meta @schema-version is missing.");
         }
-        for (EntitySchema schema : schemas.getSchemas().values()) {
+        for (EntitySchema schema : schemas.schemas().values()) {
             validateSchema(schema, resultBuilder);
         }
         return resultBuilder.build();
     }
 
     private void validateSchema(EntitySchema schema, ValidationInfo.Builder validationInfoBuilder) {
-        if (StringUtils.isEmpty(schema.getName())) {
+        if (StringUtils.isEmpty(schema.name())) {
             validationInfoBuilder.message("Schema has no name.");
         }
-        validationInfoBuilder.addPath(schema.getName());
-        if (!isIdentifier(schema.getName())) {
+        validationInfoBuilder.addPath(schema.name());
+        if (!isIdentifier(schema.name())) {
             validationInfoBuilder.message("Schema has invalid name.");
         }
 
-        validateSchemaDDL(schema.getDDL(), validationInfoBuilder);
+        validateSchemaDDL(schema.ddl(), validationInfoBuilder);
 
-        if (schema.getEntities().isEmpty()) {
+        if (schema.entities().isEmpty()) {
             validationInfoBuilder.message("Schema has no entities.");
         }
-        for (Entity entity : schema.getDefinitions().values()) {
+        for (Entity entity : schema.definitions().values()) {
             validateEntity(schema, entity, validationInfoBuilder);
         }
-        for (Entity entity : schema.getEntities().values()) {
+        for (Entity entity : schema.entities().values()) {
             validateEntity(schema, entity, validationInfoBuilder);
         }
 
@@ -56,7 +56,7 @@ public class EntityValidator implements SchemaValidator<EntitySchemas> {
             validationInfoBuilder.message("Schema has no dll.");
         } else {
             validationInfoBuilder.addPath("ddl");
-            if (StringUtils.isEmpty(ddl.getSchema())) {
+            if (StringUtils.isEmpty(ddl.schema())) {
                 validationInfoBuilder.message("ddl has no schema.");
             }
             validationInfoBuilder.removePath();
@@ -64,26 +64,26 @@ public class EntityValidator implements SchemaValidator<EntitySchemas> {
     }
 
     private void validateEntity(EntitySchema schema, Entity entity, ValidationInfo.Builder validationInfoBuilder) {
-        if (StringUtils.isEmpty(entity.getName())) {
+        if (StringUtils.isEmpty(entity.name())) {
             validationInfoBuilder.message("Entity has no name.");
         }
 
-        validationInfoBuilder.addPath(entity.getName());
+        validationInfoBuilder.addPath(entity.name());
 
-        if (!isIdentifier(entity.getName())) {
+        if (!isIdentifier(entity.name())) {
             validationInfoBuilder.message("Entity has invalid name.");
         }
-        if (entity.getFields().isEmpty()) {
+        if (entity.fields().isEmpty()) {
             validationInfoBuilder.message("Entity has no columns.");
         }
-        if (entity.getIds().isEmpty()) {
+        if (entity.ids().isEmpty()) {
             validationInfoBuilder.message("Entity has no id.");
         }
 
-        validateEntityDDL(entity.getDDL(), validationInfoBuilder);
+        validateEntityDDL(entity.ddl(), validationInfoBuilder);
         validateEntityInherits(schema, entity, validationInfoBuilder);
 
-        for (Field field : entity.getFields().values()) {
+        for (Field field : entity.fields().values()) {
             validateField(schema, field, validationInfoBuilder);
         }
 
@@ -95,7 +95,7 @@ public class EntityValidator implements SchemaValidator<EntitySchemas> {
             validationInfoBuilder.message("Entity has no dll.");
         } else {
             validationInfoBuilder.addPath("ddl");
-            if (StringUtils.isEmpty(ddl.getTable())) {
+            if (StringUtils.isEmpty(ddl.table())) {
                 validationInfoBuilder.message("ddl has no table.");
             }
             validationInfoBuilder.removePath();
@@ -103,20 +103,20 @@ public class EntityValidator implements SchemaValidator<EntitySchemas> {
     }
 
     private void validateEntityInherits(EntitySchema schema, Entity entity, ValidationInfo.Builder validationInfoBuilder) {
-        Entity.Inherits inherits = entity.getInherits();
+        Entity.Inherits inherits = entity.inherits();
         if (inherits == null) {
             return;
         }
         validationInfoBuilder.addPath("inherits");
-        if (StringUtils.isEmpty(inherits.getBase())) {
+        if (StringUtils.isEmpty(inherits.base())) {
             validationInfoBuilder.message("inherits has no base.");
         } else {
             if (Optional.of(inherits)
-                    .map(Entity.Inherits::getBase)
-                    .map(schema.getEntities()::get)
+                    .map(Entity.Inherits::base)
+                    .map(schema.entities()::get)
                     .isEmpty()
             ) {
-                validationInfoBuilder.message("Schema has no entity named " + inherits.getBase() + ".");
+                validationInfoBuilder.message("Schema has no entity named " + inherits.base() + ".");
             }
         }
         validateEntityInheritsDDL(schema, entity, validationInfoBuilder);
@@ -124,32 +124,32 @@ public class EntityValidator implements SchemaValidator<EntitySchemas> {
     }
 
     private void validateEntityInheritsDDL(EntitySchema schema, Entity entity, ValidationInfo.Builder validationInfoBuilder) {
-        Entity.Inherits inherits = entity.getInherits();
-        if (inherits.getDDL() == null) {
+        Entity.Inherits inherits = entity.inherits();
+        if (inherits.ddl() == null) {
             validationInfoBuilder.message("inherits has no ddl.");
         } else {
             validationInfoBuilder.addPath("inherits");
-            DDL.RelationColumn ddl = inherits.getDDL();
-            if (ddl.getType() != RelationType.ONE_TO_ONE) {
+            DDL.RelationColumn ddl = inherits.ddl();
+            if (ddl.type() != RelationType.ONE_TO_ONE) {
                 validationInfoBuilder.message("relation should be one-to-one.");
             }
-            if (ddl.getTable() == null) {
+            if (ddl.table() == null) {
                 validationInfoBuilder.message("ddl has no table or columns.");
             } else {
-                if (StringUtils.isEmpty(ddl.getTable().getName())) {
+                if (StringUtils.isEmpty(ddl.table().name())) {
                     validationInfoBuilder.message("ddl has no table.");
                 } else {
                     if (Optional.of(inherits)
-                            .map(Entity.Inherits::getBase)
-                            .map(schema.getEntities()::get)
-                            .map(Entity::getDDL)
-                            .map(DDL.Table::getTable)
-                            .filter(ddl.getTable().getName()::equals)
+                            .map(Entity.Inherits::base)
+                            .map(schema.entities()::get)
+                            .map(Entity::ddl)
+                            .map(DDL.Table::table)
+                            .filter(ddl.table().name()::equals)
                             .isEmpty()
                     ) {
                         validationInfoBuilder.message("ddl table does not match base entity.");
                     }
-                    if (ddl.getTable().getColumns().isEmpty()) {
+                    if (ddl.table().columns().isEmpty()) {
                         validationInfoBuilder.message("ddl has no columns.");
                     }
                 }
@@ -160,48 +160,48 @@ public class EntityValidator implements SchemaValidator<EntitySchemas> {
     }
 
     private void validateField(EntitySchema schema, Field field, ValidationInfo.Builder validationInfoBuilder) {
-        if (StringUtils.isEmpty(field.getName())) {
+        if (StringUtils.isEmpty(field.name())) {
             validationInfoBuilder.message("Field has no name.");
         }
 
-        validationInfoBuilder.addPath(field.getName());
+        validationInfoBuilder.addPath(field.name());
 
-        if (!isIdentifier(field.getName())) {
+        if (!isIdentifier(field.name())) {
             validationInfoBuilder.message("Field has invalid name.");
         }
-        if (field.getType() == null) {
+        if (field.type() == null) {
             validationInfoBuilder.message("Field has no type.");
         } else {
-            if (!field.getType().isPrimitive()) {
-                if (StringUtils.isEmpty(field.getItemType())) {
+            if (!field.type().isPrimitive()) {
+                if (StringUtils.isEmpty(field.itemType())) {
                     validationInfoBuilder.message("Field has no item-type.");
                 } else {
-                    if (!schema.getEntities().containsKey(field.getItemType())) {
-                        validationInfoBuilder.message("Invalid item-type" + field.getItemType() + ".");
+                    if (!schema.entities().containsKey(field.itemType())) {
+                        validationInfoBuilder.message("Invalid item-type" + field.itemType() + ".");
+                    }
+                }
+            }
+            if (field.isEnum()) {
+                if (!field.type().groups().contains(FieldTypeGroup.TEXT) && !field.type().groups().contains(FieldTypeGroup.NUMBER)) {
+                    validationInfoBuilder.message("Field has wrong enum type. Type should be text or number type.");
+                }
+                for (Map.Entry<String, ?> entry : field.enumValues().entrySet()) {
+                    String enumLiteralName = entry.getKey();
+                    if (!isIdentifier(enumLiteralName)) {
+                        validationInfoBuilder.addPath(enumLiteralName).message("Invalid enum literal.").removePath();
+                    }
+                    Object enumLiteralValue = entry.getValue();
+                    if (field.type().groups().contains(FieldTypeGroup.TEXT) && !(enumLiteralValue instanceof CharSequence)) {
+                        validationInfoBuilder.addPath(enumLiteralName).message("Invalid enum literal value. Expecting text.").removePath();
+                    }
+                    if (field.type().groups().contains(FieldTypeGroup.NUMBER) && !(enumLiteralValue instanceof Integer)) {
+                        validationInfoBuilder.addPath(enumLiteralName).message("Invalid enum literal value. Expecting integer.").removePath();
                     }
                 }
             }
         }
-        if (field.isRelational() && field.getFetch() == null) {
+        if (field.isRelational() && field.fetch() == null) {
             validationInfoBuilder.message("Field has no fetch.");
-        }
-        if (field.isEnum()) {
-            if (!field.getType().getGroups().contains(FieldTypeGroup.TEXT) && !field.getType().getGroups().contains(FieldTypeGroup.NUMBER)) {
-                validationInfoBuilder.message("Field has wrong enum type. Type should be text or number type.");
-            }
-            for (Map.Entry<String, ?> entry : field.getEnumValues().entrySet()) {
-                String enumLiteralName = entry.getKey();
-                if (!isIdentifier(enumLiteralName)) {
-                    validationInfoBuilder.addPath(enumLiteralName).message("Invalid enum literal.").removePath();
-                }
-                Object enumLiteralValue = entry.getValue();
-                if (field.getType().getGroups().contains(FieldTypeGroup.TEXT) && !(enumLiteralValue instanceof CharSequence)) {
-                    validationInfoBuilder.addPath(enumLiteralName).message("Invalid enum literal value. Expecting text.").removePath();
-                }
-                if (field.getType().getGroups().contains(FieldTypeGroup.NUMBER) && !(enumLiteralValue instanceof Integer)) {
-                    validationInfoBuilder.addPath(enumLiteralName).message("Invalid enum literal value. Expecting integer.").removePath();
-                }
-            }
         }
 
         validateFieldDDL(schema, field, validationInfoBuilder);
@@ -210,24 +210,24 @@ public class EntityValidator implements SchemaValidator<EntitySchemas> {
     }
 
     private void validateFieldDDL(EntitySchema schema, Field field, ValidationInfo.Builder validationInfoBuilder) {
-        if (field.getDDL() == null) {
+        if (field.ddl() == null) {
             validationInfoBuilder.message("Field has no ddl.");
             return;
         }
 
         validationInfoBuilder.addPath("ddl");
 
-        if (field.getDDL() instanceof DDL.SimpleColumn ddl) {
-            if (StringUtils.isEmpty(ddl.getColumn())) {
+        if (field.ddl() instanceof DDL.SimpleColumn ddl) {
+            if (StringUtils.isEmpty(ddl.column())) {
                 validationInfoBuilder.message("ddl has no column.");
             }
-        } else if (field.getDDL() instanceof DDL.RelationColumn ddl) {
-            if (ddl.getType() == null) {
+        } else if (field.ddl() instanceof DDL.RelationColumn ddl) {
+            if (ddl.type() == null) {
                 validationInfoBuilder.message("ddl has no relation.");
             } else {
-                if (ddl.getType().isCollection()) {
+                if (ddl.type().isCollection()) {
                     if (Optional.of(field)
-                            .map(Field::getType)
+                            .map(Field::type)
                             .filter(Predicates.of(FieldType::isArray).or(FieldType::isCollection))
                             .isEmpty()
                     ) {
@@ -235,7 +235,7 @@ public class EntityValidator implements SchemaValidator<EntitySchemas> {
                     }
                 } else {
                     if (Optional.of(field)
-                            .map(Field::getType)
+                            .map(Field::type)
                             .filter(FieldType::isObject)
                             .isEmpty()
                     ) {
@@ -243,26 +243,26 @@ public class EntityValidator implements SchemaValidator<EntitySchemas> {
                     }
                 }
 
-                if (ddl.getType() == RelationType.MANY_TO_MANY) {
-                    if (ddl.getInverseTable() == null) {
+                if (ddl.type() == RelationType.MANY_TO_MANY) {
+                    if (ddl.inverseTable() == null) {
                         validationInfoBuilder.message("ddl has no inverse-table or inverse-columns.");
                     } else {
-                        if (StringUtils.isEmpty(ddl.getInverseTable().getName())) {
+                        if (StringUtils.isEmpty(ddl.inverseTable().name())) {
                             validationInfoBuilder.message("ddl has no inverse-table.");
                         }
-                        if (ddl.getInverseTable().getColumns().isEmpty()) {
+                        if (ddl.inverseTable().columns().isEmpty()) {
                             validationInfoBuilder.message("ddl has no inverse-columns.");
                         }
                     }
                 }
             }
-            if (ddl.getTable() == null) {
+            if (ddl.table() == null) {
                 validationInfoBuilder.message("ddl has no table or columns.");
             } else {
-                if (StringUtils.isEmpty(ddl.getTable().getName())) {
+                if (StringUtils.isEmpty(ddl.table().name())) {
                     validationInfoBuilder.message("ddl has no table.");
                 }
-                if (ddl.getTable().getColumns().isEmpty()) {
+                if (ddl.table().columns().isEmpty()) {
                     validationInfoBuilder.message("ddl has no columns.");
                 }
             }

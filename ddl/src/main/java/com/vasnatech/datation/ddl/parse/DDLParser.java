@@ -12,20 +12,20 @@ public interface DDLParser extends SchemaParser<DDLSchemas> {
 
     default DDLSchemas normalize(DDLSchemas schemas) {
         DDLSchemas.Builder schemasBuilder = DDLSchemas.builder();
-        schemasBuilder.meta(schemas.getMeta());
-        for (DDLSchema schema : schemas.getSchemas().values()) {
+        schemasBuilder.meta(schemas.meta());
+        for (DDLSchema schema : schemas.schemas().values()) {
             schemasBuilder.schema(normalize(schema));
         }
         return schemasBuilder.build();
     }
 
     private DDLSchema normalize(DDLSchema schema) {
-        if (schema.getDefinitions().isEmpty()) {
+        if (schema.definitions().isEmpty()) {
             return schema;
         }
         DDLSchema.Builder schemaBuilder = DDLSchema.builder();
-        schemaBuilder.name(schema.getName());
-        for (Table table : schema.getTables().values()) {
+        schemaBuilder.name(schema.name());
+        for (Table table : schema.tables().values()) {
             schemaBuilder.table(normalize(schema, table));
         }
         return schemaBuilder.build();
@@ -33,27 +33,27 @@ public interface DDLParser extends SchemaParser<DDLSchemas> {
 
     private Table normalize(DDLSchema schema, Table table) {
         Table.Builder tableBuilder = Table.builder();
-        tableBuilder.name(table.getName())
-                .primaryKey(table.getPrimaryKey())
-                .indexes(table.getIndexes())
-                .foreignKeys(table.getForeignKeys());
-        for (Append append : table.getAppends().values()) {
-            Table definition = schema.getDefinitions().get(append.getName());
+        tableBuilder.name(table.name())
+                .primaryKey(table.primaryKey())
+                .indexes(table.indexes())
+                .foreignKeys(table.foreignKeys());
+        for (Append append : table.appends().values()) {
+            Table definition = schema.definitions().get(append.name());
             if (definition == null) {
-                throw new ParserException(String.format("Unable to find definition %s in %s.%s", append.getName(), schema.getName(), table.getName()));
+                throw new ParserException(String.format("Unable to find definition %s in %s.%s", append.name(), schema.name(), table.name()));
             }
-            if (append.getAnchor() == Anchor.HEAD) {
-                tableBuilder.columns(definition.getColumns());
+            if (append.anchor() == Anchor.HEAD) {
+                tableBuilder.columns(definition.columns());
             }
-            tableBuilder.primaryKey(definition.getPrimaryKey())
-                    .indexes(definition.getIndexes())
-                    .foreignKeys(definition.getForeignKeys());
+            tableBuilder.primaryKey(definition.primaryKey())
+                    .indexes(definition.indexes())
+                    .foreignKeys(definition.foreignKeys());
         }
-        tableBuilder.columns(table.getColumns());
-        for (Append append : table.getAppends().values()) {
-            Table definition = schema.getDefinitions().get(append.getName());
-            if (append.getAnchor() == Anchor.TAIL) {
-                tableBuilder.columns(definition.getColumns());
+        tableBuilder.columns(table.columns());
+        for (Append append : table.appends().values()) {
+            Table definition = schema.definitions().get(append.name());
+            if (append.anchor() == Anchor.TAIL) {
+                tableBuilder.columns(definition.columns());
             }
         }
 

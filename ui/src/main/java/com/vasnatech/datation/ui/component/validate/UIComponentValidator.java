@@ -12,39 +12,39 @@ public class UIComponentValidator implements SchemaValidator<UIComponentSchema> 
     @Override
     public List<ValidationInfo> validate(UIComponentSchema schema) {
         ValidationInfo.Builder resultBuilder = ValidationInfo.builder();
-        if (!schema.getMeta().containsKey("@schema-type")) {
+        if (!schema.meta().containsKey("@schema-type")) {
             resultBuilder.message("meta @schema-type is missing.");
         }
-        if (!schema.getMeta().containsKey("@schema-version")) {
+        if (!schema.meta().containsKey("@schema-version")) {
             resultBuilder.message("meta @schema-version is missing.");
         }
-        if (StringUtils.isEmpty(schema.getName())) {
+        if (StringUtils.isEmpty(schema.name())) {
             resultBuilder.message("schema name is missing");
         }
-        if (schema.getProperties().isEmpty()) {
+        if (schema.properties().isEmpty()) {
             resultBuilder.message("schema has no properties");
         }
-        if (schema.getControls().isEmpty()) {
+        if (schema.controls().isEmpty()) {
             resultBuilder.message("schema has no controls");
         }
-        if (schema.getContainers().isEmpty()) {
+        if (schema.containers().isEmpty()) {
             resultBuilder.message("schema has no containers");
         }
 
         resultBuilder.addPath("properties");
-        schema.getProperties().values().forEach(property -> validateProperty(property, resultBuilder));
+        schema.properties().values().forEach(property -> validateProperty(property, resultBuilder));
         resultBuilder.removePath();
 
         resultBuilder.addPath("events");
-        schema.getEvents().values().forEach(event -> validateEvent(event, resultBuilder));
+        schema.events().values().forEach(event -> validateEvent(event, resultBuilder));
         resultBuilder.removePath();
 
         resultBuilder.addPath("controls");
-        schema.getControls().values().forEach(control -> validateControl(control, resultBuilder));
+        schema.controls().values().forEach(control -> validateControl(control, resultBuilder));
         resultBuilder.removePath();
 
         resultBuilder.addPath("container");
-        schema.getContainers().values().forEach(container -> validateContainer(container, resultBuilder));
+        schema.containers().values().forEach(container -> validateContainer(container, resultBuilder));
         resultBuilder.removePath();
 
         return resultBuilder.build();

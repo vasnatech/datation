@@ -8,58 +8,14 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Entity extends Node {
-
-    final DDL.Table ddl;
-    final Inherits inherits;
-    final LinkedHashMap<String, Field> fields;
-    final List<String> ids;
-    final LinkedHashMap<String, Append> appends;
-
-    public Entity(
-            String name,
-            DDL.Table ddl,
-            Inherits inherits,
-            LinkedHashMap<String, Field> fields,
-            List<String> ids,
-            LinkedHashMap<String, Append> appends
-    ) {
-        super(name);
-        this.ddl = ddl;
-        this.inherits = inherits;
-        this.fields = fields;
-        this.ids = ids;
-        this.appends = appends;
-    }
-
-    public DDL.Table getDDL() {
-        return ddl;
-    }
-
-    public Inherits getInherits() {
-        return inherits;
-    }
-
-    public Map<String, Field> getFields() {
-        return fields;
-    }
-
-    public List<String> getIds() {
-        return ids;
-    }
-
-    public LinkedHashMap<String, Append> getAppends() {
-        return appends;
-    }
-
-    public Builder toBuilder() {
-        return new Builder()
-                .name(name)
-                .ddl(ddl)
-                .inherits(inherits)
-                .fields(fields)
-                .ids(ids);
-    }
+public record Entity(
+        String name,
+        DDL.Table ddl,
+        Inherits inherits,
+        LinkedHashMap<String, Field> fields,
+        List<String> ids,
+        LinkedHashMap<String, Append> appends
+) implements Node {
 
     public static Builder builder() {
         return new Builder();
@@ -94,7 +50,7 @@ public class Entity extends Node {
         }
 
         public Builder field(Field field) {
-            this.fields.put(field.getName(), field);
+            this.fields.put(field.name(), field);
             return this;
         }
 
@@ -114,7 +70,7 @@ public class Entity extends Node {
         }
 
         public Builder append(Append append) {
-            this.appends.put(append.getName(), append);
+            this.appends.put(append.name(), append);
             return this;
         }
 
@@ -123,22 +79,7 @@ public class Entity extends Node {
         }
     }
 
-    public static class Inherits {
-        final String base;
-        final DDL.RelationColumn ddl;
-
-        public Inherits(String base, DDL.RelationColumn ddl) {
-            this.base = base;
-            this.ddl = ddl;
-        }
-
-        public String getBase() {
-            return base;
-        }
-
-        public DDL.RelationColumn getDDL() {
-            return ddl;
-        }
+    public record Inherits(String base, DDL.RelationColumn ddl) {
 
         public static Builder builder() {
             return new Builder();

@@ -1,44 +1,18 @@
 package com.vasnatech.datation.ui.binding.schema;
 
+import com.vasnatech.commons.schema.schema.Node;
 import com.vasnatech.datation.ui.component.schema.Control;
 import org.springframework.expression.Expression;
 
 import java.util.StringJoiner;
 
-public class Field {
-    final String name;
-    final Control control;
-    final Expression getExpression;
-    final Expression setExpression;
-    final Expression dataSourceExpression;
-
-    public Field(String name, Control control, Expression getExpression, Expression setExpression, Expression dataSourceExpression) {
-        this.name = name;
-        this.control = control;
-        this.getExpression = getExpression;
-        this.setExpression = setExpression;
-        this.dataSourceExpression = dataSourceExpression;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Control getControl() {
-        return control;
-    }
-
-    public Expression getGetExpression() {
-        return getExpression;
-    }
-
-    public Expression getSetExpression() {
-        return setExpression;
-    }
-
-    public Expression getDataSourceExpression() {
-        return dataSourceExpression;
-    }
+public record Field(
+        String name,
+        Control control,
+        Expression getExpression,
+        Expression setExpression,
+        Expression dataSourceExpression
+) implements Node {
 
     @Override
     public String toString() {

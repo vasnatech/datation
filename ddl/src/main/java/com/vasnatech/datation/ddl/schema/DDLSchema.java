@@ -1,37 +1,14 @@
 package com.vasnatech.datation.ddl.schema;
 
 import com.vasnatech.commons.schema.schema.Node;
-import com.vasnatech.commons.schema.schema.Schema;
 
 import java.util.LinkedHashMap;
 
-public class DDLSchema extends Node implements Schema {
-
-    final LinkedHashMap<String, Table> definitions;
-    final LinkedHashMap<String, Table> tables;
-
-    private DDLSchema(
-            String name,
-            LinkedHashMap<String, Table> definitions,
-            LinkedHashMap<String, Table> tables
-    ) {
-        super(name);
-        this.definitions = definitions;
-        this.tables = tables;
-    }
-
-    @Override
-    public String type() {
-        return "ddl";
-    }
-
-    public LinkedHashMap<String, Table> getDefinitions() {
-        return definitions;
-    }
-
-    public LinkedHashMap<String, Table> getTables() {
-        return tables;
-    }
+public record DDLSchema(
+        String name,
+        LinkedHashMap<String, Table> definitions,
+        LinkedHashMap<String, Table> tables
+) implements Node {
 
     public static Builder builder() {
         return new Builder();
@@ -48,12 +25,12 @@ public class DDLSchema extends Node implements Schema {
         }
 
         public Builder definition(Table table) {
-            this.definitions.put(table.getName(), table);
+            this.definitions.put(table.name(), table);
             return this;
         }
 
         public Builder table(Table table) {
-            this.tables.put(table.getName(), table);
+            this.tables.put(table.name(), table);
             return this;
         }
 

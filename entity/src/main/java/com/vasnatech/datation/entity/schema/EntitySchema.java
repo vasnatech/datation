@@ -4,35 +4,12 @@ import com.vasnatech.commons.schema.schema.Node;
 
 import java.util.LinkedHashMap;
 
-public class EntitySchema extends Node {
-
-    final DDL.Schema ddl;
-    final LinkedHashMap<String, Entity> definitions;
-    final LinkedHashMap<String, Entity> entities;
-
-    private EntitySchema(
-            String name,
-            DDL.Schema ddl,
-            LinkedHashMap<String, Entity> definitions,
-            LinkedHashMap<String, Entity> entities
-    ) {
-        super(name);
-        this.ddl = ddl;
-        this.definitions = definitions;
-        this.entities = entities;
-    }
-
-    public DDL.Schema getDDL() {
-        return ddl;
-    }
-
-    public LinkedHashMap<String, Entity> getDefinitions() {
-        return definitions;
-    }
-
-    public LinkedHashMap<String, Entity> getEntities() {
-        return entities;
-    }
+public record EntitySchema(
+        String name,
+        DDL.Schema ddl,
+        LinkedHashMap<String, Entity> definitions,
+        LinkedHashMap<String, Entity> entities
+) implements Node {
 
     public static Builder builder() {
         return new Builder();
@@ -55,12 +32,12 @@ public class EntitySchema extends Node {
         }
 
         public Builder definition(Entity entity) {
-            this.definitions.put(entity.getName(), entity);
+            this.definitions.put(entity.name(), entity);
             return this;
         }
 
         public Builder entity(Entity entity) {
-            this.entities.put(entity.getName(), entity);
+            this.entities.put(entity.name(), entity);
             return this;
         }
 

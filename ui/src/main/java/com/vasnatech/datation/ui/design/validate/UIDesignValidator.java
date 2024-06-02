@@ -17,14 +17,14 @@ public class UIDesignValidator implements SchemaValidator<UIDesignSchema> {
     @Override
     public List<ValidationInfo> validate(UIDesignSchema schema) {
         ValidationInfo.Builder resultBuilder = ValidationInfo.builder();
-        if (!schema.getMeta().containsKey("@schema-type")) {
+        if (!schema.meta().containsKey("@schema-type")) {
             resultBuilder.message("meta @schema-type is missing.");
         }
-        if (!schema.getMeta().containsKey("@schema-version")) {
+        if (!schema.meta().containsKey("@schema-version")) {
             resultBuilder.message("meta @schema-version is missing.");
         }
 
-        validateElement(null, schema.getRoot(), resultBuilder);
+        validateElement(null, schema.root(), resultBuilder);
 
         return resultBuilder.build();
     }
@@ -41,32 +41,32 @@ public class UIDesignValidator implements SchemaValidator<UIDesignSchema> {
             if (!child.type().isContainer() && !child.children().isEmpty()) {
                 resultBuilder.message("element is not container but has children");
             }
-        }
 
-        child.properties().forEach((key, value) -> {
-            resultBuilder.addPath(key);
-            Property property = child.type().properties().get(key);
-            if (property == null) {
-                resultBuilder.message("unable to find property definition");
-            } else if (!validatePropertyValue(property, value)) {
-                resultBuilder.message("unsupported property value");
-            }
-            resultBuilder.removePath();
-        });
-
-        child.containerProperties().forEach((key, value) -> {
-            resultBuilder.addPath(key);
-            Property property;
-            if (parent != null && (parent.type() instanceof Container container)) {
-                property = container.childProperties().get(key);
+            child.properties().forEach((key, value) -> {
+                resultBuilder.addPath(key);
+                Property property = child.type().properties().get(key);
                 if (property == null) {
                     resultBuilder.message("unable to find property definition");
                 } else if (!validatePropertyValue(property, value)) {
                     resultBuilder.message("unsupported property value");
                 }
-            }
-            resultBuilder.removePath();
-        });
+                resultBuilder.removePath();
+            });
+
+            child.containerProperties().forEach((key, value) -> {
+                resultBuilder.addPath(key);
+                Property property;
+                if (parent != null && (parent.type() instanceof Container container)) {
+                    property = container.childProperties().get(key);
+                    if (property == null) {
+                        resultBuilder.message("unable to find property definition");
+                    } else if (!validatePropertyValue(property, value)) {
+                        resultBuilder.message("unsupported property value");
+                    }
+                }
+                resultBuilder.removePath();
+            });
+        }
 
         child.children().values().forEach(element -> validateElement(child, element, resultBuilder));
 

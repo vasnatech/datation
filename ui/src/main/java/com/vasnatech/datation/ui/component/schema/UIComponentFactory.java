@@ -2,9 +2,12 @@ package com.vasnatech.datation.ui.component.schema;
 
 public abstract class UIComponentFactory {
 
-    static UIComponentFactory INSTANCE = new DefaultUIComponentFactory();
+    static UIComponentFactory INSTANCE ;
 
     public static UIComponentFactory instance() {
+        if (INSTANCE == null) {
+            INSTANCE = new DefaultUIComponentFactory();
+        }
         return INSTANCE;
     }
 

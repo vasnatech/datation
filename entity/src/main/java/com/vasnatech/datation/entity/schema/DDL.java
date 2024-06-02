@@ -4,72 +4,64 @@ import com.vasnatech.commons.schema.schema.Node;
 
 import java.util.LinkedHashMap;
 
-public class DDL extends Node {
-    public DDL() {
-        super("ddl");
+public interface DDL extends Node {
+
+    @Override
+    default String name() {
+        return "ddl";
     }
 
-    public static class Schema extends DDL {
-        final String schema;
-        public Schema(String schema) {
-            this.schema = schema;
-        }
-
-        public String getSchema() {
-            return schema;
-        }
+    record Schema(String schema) implements DDL {
         public static Builder builder() {
-            return new Builder();
-        }
+                return new Builder();
+            }
+
         public static class Builder {
-            String schema;
-            public Builder schema(String schema) {
+                String schema;
+
+        public Builder schema(String schema) {
                 this.schema = schema;
                 return this;
             }
-            public Schema build() {
+
+        public Schema build() {
                 return new Schema(schema);
             }
         }
     }
 
-    public static class Table extends DDL {
-        final String table;
-        public Table(String table) {
-            this.table = table;
-        }
-
-        public String getTable() {
-            return table;
-        }
+    record Table(String table) implements DDL {
         public static Builder builder() {
-            return new Builder();
-        }
+                return new Builder();
+            }
+
         public static class Builder {
-            String table;
-            public Builder table(String table) {
+                String table;
+
+        public Builder table(String table) {
                 this.table = table;
                 return this;
             }
-            public Table build() {
+
+        public Table build() {
                 return new Table(table);
             }
         }
     }
 
-    public static abstract class Column extends DDL {
-        public boolean isSimple() {
+    interface Column extends DDL {
+        default boolean isSimple() {
             return false;
         }
-        public boolean isRelational() {
+        default boolean isRelational() {
             return false;
         }
 
-        public static Builder builder() {
+        static Builder builder() {
             return new Builder();
         }
 
-        public static class Builder {
+        class Builder {
             String column;
             RelationType type;
             RelationColumn.TableRelation.Builder tableBuilder;
@@ -140,65 +132,24 @@ public class DDL extends Node {
         }
     }
 
-    public static class SimpleColumn extends Column {
-        final String column;
-        public SimpleColumn(String column) {
-            this.column = column;
-        }
-
-        public String getColumn() {
-            return column;
-        }
+    record SimpleColumn(String column) implements Column {
 
         public boolean isSimple() {
             return true;
         }
     }
 
-    public static class RelationColumn extends Column {
-
-        final RelationType type;
-        final TableRelation table;
-        final TableRelation inverseTable;
-
-        public RelationColumn(RelationType type, TableRelation table, TableRelation inverseTable) {
-            this.type = type;
-            this.table = table;
-            this.inverseTable = inverseTable;
-        }
-
-        public RelationType getType() {
-            return type;
-        }
-
-        public TableRelation getTable() {
-            return table;
-        }
-
-        public TableRelation getInverseTable() {
-            return inverseTable;
-        }
+    record RelationColumn(
+            RelationType type,
+            DDL.RelationColumn.TableRelation table,
+            DDL.RelationColumn.TableRelation inverseTable
+    ) implements Column {
 
         public boolean isRelational() {
-            return true;
-        }
-
-        public static class TableRelation {
-            final String name;
-            final LinkedHashMap<String, String> columns;
-
-            public TableRelation(String name, LinkedHashMap<String, String> columns) {
-                this.name = name;
-                this.columns = columns;
+                return true;
             }
 
-            public String getName() {
-                return name;
-            }
-
-            public LinkedHashMap<String, String> getColumns() {
-                return columns;
-            }
+        public record TableRelation(String name, LinkedHashMap<String, String> columns) {
 
             static TableRelation.Builder builder() {
                 return new TableRelation.Builder();

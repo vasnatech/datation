@@ -4,33 +4,15 @@ import com.vasnatech.commons.schema.schema.Node;
 
 import java.util.LinkedHashMap;
 
-public class ForeignKey extends Node {
-
-    final String referenceTable;
-    final LinkedHashMap<String, String> columns;
-    final boolean real;
+public record ForeignKey(
+        String name,
+        String referenceTable,
+        LinkedHashMap<String, String> columns,
+        boolean real
+) implements Node {
 
     public static Builder builder() {
         return new Builder();
-    }
-
-    public ForeignKey(String name, String referenceTable, LinkedHashMap<String, String> columns, boolean real) {
-        super(name);
-        this.referenceTable = referenceTable;
-        this.columns = columns;
-        this.real = real;
-    }
-
-    public String getReferenceTable() {
-        return referenceTable;
-    }
-
-    public LinkedHashMap<String, String> getColumns() {
-        return columns;
-    }
-
-    public boolean isReal() {
-        return real;
     }
 
     public static class Builder {

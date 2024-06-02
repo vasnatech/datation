@@ -4,12 +4,15 @@ import java.util.Set;
 
 public interface PropertyType {
 
-    String value();
+    String key();
 
+    Object parseValue(String stringValue);
+
+    @SuppressWarnings("unchecked")
     static PropertyType of(Object value) {
         if (value instanceof Set<?> enumLiterals) {
             return new EnumPropertyType((Set<String>)enumLiterals);
         }
-        return BasicPropertyType.findByValue((String) value);
+        return BasicPropertyType.findByKey((String) value);
     }
 }

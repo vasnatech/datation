@@ -1,12 +1,12 @@
 package com.vasnatech.datation.ui.component.schema;
 
+import com.vasnatech.commons.schema.schema.Node;
+
 import java.util.Map;
 
-public interface Component {
+public interface Component extends Node {
 
     boolean isContainer();
-
-    String name();
 
     Map<String, Property> properties();
 

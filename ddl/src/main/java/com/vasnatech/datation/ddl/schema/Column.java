@@ -4,49 +4,14 @@ import com.vasnatech.commons.schema.schema.Node;
 
 import java.util.LinkedHashMap;
 
-public class Column extends Node {
-
-    final ColumnType type;
-    final int length;
-    final int length2;
-    final boolean nullable;
-    final LinkedHashMap<String, ?> enumValues;
-
-    Column(
-            String name,
-            ColumnType type,
-            int length,
-            int length2,
-            boolean nullable,
-            LinkedHashMap<String, ?> enumValues
-    ) {
-        super(name);
-        this.type = type;
-        this.length = length;
-        this.length2 = length2;
-        this.nullable = nullable;
-        this.enumValues = enumValues;
-    }
-
-    public ColumnType getType() {
-        return type;
-    }
-
-    public int getLength() {
-        return length;
-    }
-
-    public int getLength2() {
-        return length2;
-    }
-
-    public boolean isNullable() {
-        return nullable;
-    }
-
-    public LinkedHashMap<String, ?> getEnumValues() {
-        return enumValues;
-    }
+public record Column(
+        String name,
+        ColumnType type,
+        int length,
+        int length2,
+        boolean nullable,
+        LinkedHashMap<String, ?> enumValues
+) implements Node {
 
     public boolean isEnum() {
         return !enumValues.isEmpty();

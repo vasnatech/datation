@@ -34,7 +34,7 @@ public enum FieldType {
         this.groups = EnumSet.of(first, rest);
     }
 
-    public EnumSet<FieldTypeGroup> getGroups() {
+    public EnumSet<FieldTypeGroup> groups() {
         return groups;
     }
 

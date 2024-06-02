@@ -2,6 +2,10 @@ package com.vasnatech.datation.ui.design.schema;
 
 public record Insets(int left, int top, int right, int bottom) {
 
+    public Insets add(Insets that) {
+        return new Insets(this.left + that.left, this.top + that.top, this.right + that.right, this.bottom + that.bottom);
+    }
+
     @Override
     public String toString() {
         return left + "," + top + "," + right + "," + bottom;

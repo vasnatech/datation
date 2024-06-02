@@ -13,20 +13,20 @@ public class UIBindingValidator implements SchemaValidator<UIBindingSchema> {
     @Override
     public List<ValidationInfo> validate(UIBindingSchema schema) {
         ValidationInfo.Builder validationInfoBuilder = ValidationInfo.builder();
-        if (!schema.getMeta().containsKey("@schema-type")) {
+        if (!schema.meta().containsKey("@schema-type")) {
             validationInfoBuilder.message("meta @schema-type is missing.");
         }
-        if (!schema.getMeta().containsKey("@schema-version")) {
+        if (!schema.meta().containsKey("@schema-version")) {
             validationInfoBuilder.message("meta @schema-version is missing.");
         }
-        if (StringUtils.isEmpty(schema.getName())) {
+        if (StringUtils.isEmpty(schema.name())) {
             validationInfoBuilder.message("schema name is missing");
         }
-        if (schema.getFields().isEmpty()) {
+        if (schema.fields().isEmpty()) {
             validationInfoBuilder.message("schema has no fields");
         }
 
-        for(Field field : schema.getFields().values()) {
+        for(Field field : schema.fields().values()) {
             validateField(field, validationInfoBuilder);
         }
 
@@ -34,18 +34,18 @@ public class UIBindingValidator implements SchemaValidator<UIBindingSchema> {
     }
 
     void validateField(Field field, ValidationInfo.Builder validationInfoBuilder) {
-        validationInfoBuilder.addPath(field.getName());
+        validationInfoBuilder.addPath(field.name());
 
-        if (StringUtils.isEmpty(field.getName())) {
+        if (StringUtils.isEmpty(field.name())) {
             validationInfoBuilder.message("Field has no name.");
         }
-        if (!isIdentifier(field.getName())) {
+        if (!isIdentifier(field.name())) {
             validationInfoBuilder.message("Field has invalid name.");
         }
-        if (field.getControl() == null) {
+        if (field.control() == null) {
             validationInfoBuilder.message("Field has invalid control.");
         }
-        if (field.getGetExpression() == null) {
+        if (field.getExpression() == null) {
             validationInfoBuilder.message("Field has invalid get binding.");
         }
 

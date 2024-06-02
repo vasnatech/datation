@@ -18,35 +18,35 @@ public class DDLValidator implements SchemaValidator<DDLSchemas> {
     @Override
     public List<ValidationInfo> validate(DDLSchemas schemas) {
         ValidationInfo.Builder resultBuilder = ValidationInfo.builder();
-        if (!schemas.getMeta().containsKey("@schema-type")) {
+        if (!schemas.meta().containsKey("@schema-type")) {
             resultBuilder.message("meta @schema-type is missing.");
         }
-        if (!schemas.getMeta().containsKey("@schema-version")) {
+        if (!schemas.meta().containsKey("@schema-version")) {
             resultBuilder.message("meta @schema-version is missing.");
         }
-        for (DDLSchema schema : schemas.getSchemas().values()) {
+        for (DDLSchema schema : schemas.schemas().values()) {
             validateSchema(schema, resultBuilder);
         }
         return resultBuilder.build();
     }
 
     private void validateSchema(DDLSchema schema, ValidationInfo.Builder validationInfoBuilder) {
-        if (StringUtils.isEmpty(schema.getName())) {
+        if (StringUtils.isEmpty(schema.name())) {
             validationInfoBuilder.message("Schema has no name.");
         }
-        validationInfoBuilder.addPath(schema.getName());
-        if (!isIdentifier(schema.getName())) {
+        validationInfoBuilder.addPath(schema.name());
+        if (!isIdentifier(schema.name())) {
             validationInfoBuilder.message("Schema has invalid name.");
         }
-        if (schema.getTables().isEmpty()) {
+        if (schema.tables().isEmpty()) {
             validationInfoBuilder.message("Schema has no tables.");
         }
 
-        for (Table table : schema.getDefinitions().values()) {
+        for (Table table : schema.definitions().values()) {
             validateTable(schema, table, validationInfoBuilder);
         }
 
-        for (Table table : schema.getTables().values()) {
+        for (Table table : schema.tables().values()) {
             validateTable(schema, table, validationInfoBuilder);
         }
 
@@ -54,31 +54,31 @@ public class DDLValidator implements SchemaValidator<DDLSchemas> {
     }
 
     private void validateTable(DDLSchema schema, Table table, ValidationInfo.Builder validationInfoBuilder) {
-        if (StringUtils.isEmpty(table.getName())) {
+        if (StringUtils.isEmpty(table.name())) {
             validationInfoBuilder.message("Table has no name.");
         }
 
-        validationInfoBuilder.addPath(table.getName());
+        validationInfoBuilder.addPath(table.name());
 
-        if (!isIdentifier(table.getName())) {
+        if (!isIdentifier(table.name())) {
             validationInfoBuilder.message("Table has invalid name.");
         }
-        if (table.getColumns().isEmpty()) {
+        if (table.columns().isEmpty()) {
             validationInfoBuilder.message("Table has no columns.");
         }
-        if (table.getPrimaryKey().isEmpty()) {
+        if (table.primaryKey().isEmpty()) {
             validationInfoBuilder.message("Table has no primary key.");
         }
 
-        for (Column column : table.getColumns().values()) {
+        for (Column column : table.columns().values()) {
             validateColumn(column, validationInfoBuilder);
         }
 
-        for (Index index : table.getIndexes().values()) {
+        for (Index index : table.indexes().values()) {
             validateIndex(table, index, validationInfoBuilder);
         }
 
-        for (ForeignKey foreignKey : table.getForeignKeys().values()) {
+        for (ForeignKey foreignKey : table.foreignKeys().values()) {
             validateForeignKey(schema, table, foreignKey, validationInfoBuilder);
         }
 
@@ -86,40 +86,40 @@ public class DDLValidator implements SchemaValidator<DDLSchemas> {
     }
 
     private void validateColumn(Column column, ValidationInfo.Builder validationInfoBuilder) {
-        if (StringUtils.isEmpty(column.getName())) {
+        if (StringUtils.isEmpty(column.name())) {
             validationInfoBuilder.message("Column has no name.");
         }
 
-        validationInfoBuilder.addPath(column.getName());
+        validationInfoBuilder.addPath(column.name());
 
-        if (!isIdentifier(column.getName())) {
+        if (!isIdentifier(column.name())) {
             validationInfoBuilder.message("Column has invalid name.");
         }
-        if (column.getType() == null) {
+        if (column.type() == null) {
             validationInfoBuilder.message("Column has no type.");
         } else {
-            if (column.getType().isLengthRequired() && column.getLength() <= 0) {
+            if (column.type().isLengthRequired() && column.length() <= 0) {
                 validationInfoBuilder.message("Column has no length.");
             }
-            if (column.getType().isLength2Required() && column.getLength2() <= 0) {
+            if (column.type().isLength2Required() && column.length2() <= 0) {
                 validationInfoBuilder.message("Column has no length2.");
             }
-        }
-        if (column.isEnum()) {
-            if (!column.getType().isText() && !column.getType().isNumber()) {
-                validationInfoBuilder.message("Column has wrong enum type. Type should be text or number type.");
-            }
-            for (Map.Entry<String, ?> entry : column.getEnumValues().entrySet()) {
-                String enumLiteralName = entry.getKey();
-                if (!isIdentifier(enumLiteralName)) {
-                    validationInfoBuilder.addPath(enumLiteralName).message("Invalid enum literal.").removePath();
+            if (column.isEnum()) {
+                if (!column.type().isText() && !column.type().isNumber()) {
+                    validationInfoBuilder.message("Column has wrong enum type. Type should be text or number type.");
                 }
-                Object enumLiteralValue = entry.getValue();
-                if (column.getType().isText() && !(enumLiteralValue instanceof CharSequence)) {
-                    validationInfoBuilder.addPath(enumLiteralName).message("Invalid enum literal value. Expecting text.").removePath();
-                }
-                if (column.getType().isNumber() && !(enumLiteralValue instanceof Integer)) {
-                    validationInfoBuilder.addPath(enumLiteralName).message("Invalid enum literal value. Expecting integer.").removePath();
+                for (Map.Entry<String, ?> entry : column.enumValues().entrySet()) {
+                    String enumLiteralName = entry.getKey();
+                    if (!isIdentifier(enumLiteralName)) {
+                        validationInfoBuilder.addPath(enumLiteralName).message("Invalid enum literal.").removePath();
+                    }
+                    Object enumLiteralValue = entry.getValue();
+                    if (column.type().isText() && !(enumLiteralValue instanceof CharSequence)) {
+                        validationInfoBuilder.addPath(enumLiteralName).message("Invalid enum literal value. Expecting text.").removePath();
+                    }
+                    if (column.type().isNumber() && !(enumLiteralValue instanceof Integer)) {
+                        validationInfoBuilder.addPath(enumLiteralName).message("Invalid enum literal value. Expecting integer.").removePath();
+                    }
                 }
             }
         }
@@ -128,21 +128,21 @@ public class DDLValidator implements SchemaValidator<DDLSchemas> {
     }
 
     private void validateIndex(Table table, Index index, ValidationInfo.Builder validationInfoBuilder) {
-        if (StringUtils.isEmpty(index.getName())) {
+        if (StringUtils.isEmpty(index.name())) {
             validationInfoBuilder.message("Index has no name.");
         }
 
-        validationInfoBuilder.addPath(index.getName());
+        validationInfoBuilder.addPath(index.name());
 
-        if (!isIdentifier(index.getName())) {
+        if (!isIdentifier(index.name())) {
             validationInfoBuilder.message("Index has invalid name.");
         }
-        if (index.getColumns().isEmpty()) {
+        if (index.columns().isEmpty()) {
             validationInfoBuilder.message("Index has no columns.");
         }
 
-        for (String columnName : index.getColumns()) {
-            if (!table.getColumns().containsKey(columnName)) {
+        for (String columnName : index.columns()) {
+            if (!table.columns().containsKey(columnName)) {
                 validationInfoBuilder.addPath(columnName).message("Index column does not exist.").removePath();
             }
         }
@@ -151,30 +151,30 @@ public class DDLValidator implements SchemaValidator<DDLSchemas> {
     }
 
     private void validateForeignKey(DDLSchema schema, Table table, ForeignKey foreignKey, ValidationInfo.Builder validationInfoBuilder) {
-        if (StringUtils.isEmpty(foreignKey.getName())) {
+        if (StringUtils.isEmpty(foreignKey.name())) {
             validationInfoBuilder.message("Foreign Key has no name.");
         }
 
-        validationInfoBuilder.addPath(foreignKey.getName());
+        validationInfoBuilder.addPath(foreignKey.name());
 
-        if (!isIdentifier(foreignKey.getName())) {
+        if (!isIdentifier(foreignKey.name())) {
             validationInfoBuilder.message("Foreign Key has invalid name.");
         }
-        if (foreignKey.getColumns().isEmpty()) {
+        if (foreignKey.columns().isEmpty()) {
             validationInfoBuilder.message("Foreign Key has no columns.");
         }
 
-        Table primaryTable = schema.getTables().get(foreignKey.getReferenceTable());
+        Table primaryTable = schema.tables().get(foreignKey.referenceTable());
         if (primaryTable == null) {
-            validationInfoBuilder.addPath(foreignKey.getReferenceTable()).message("Foreign Key reference table does not exist.").removePath();
-        }
-
-        for (Map.Entry<String, String> columns : foreignKey.getColumns().entrySet()) {
-            if (!table.getColumns().containsKey(columns.getKey())) {
-                validationInfoBuilder.addPath(columns.getKey()).message("Foreign Key column does not exist.").removePath();
-            }
-            if (!primaryTable.getColumns().containsKey(columns.getValue())) {
-                validationInfoBuilder.addPath(columns.getValue()).message("Foreign Key column does not exist.").removePath();
+            validationInfoBuilder.addPath(foreignKey.referenceTable()).message("Foreign Key reference table does not exist.").removePath();
+        } else {
+            for (Map.Entry<String, String> columns : foreignKey.columns().entrySet()) {
+                if (!table.columns().containsKey(columns.getKey())) {
+                    validationInfoBuilder.addPath(columns.getKey()).message("Foreign Key column does not exist.").removePath();
+                }
+                if (!primaryTable.columns().containsKey(columns.getValue())) {
+                    validationInfoBuilder.addPath(columns.getValue()).message("Foreign Key column does not exist.").removePath();
+                }
             }
         }
 
