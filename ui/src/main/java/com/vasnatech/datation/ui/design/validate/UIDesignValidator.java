@@ -75,7 +75,7 @@ public class UIDesignValidator implements SchemaValidator<UIDesignSchema> {
 
     boolean validatePropertyValue(Property property, Object value) {
         if (value == null) {
-            return false;
+            return true;
         }
         if (property.type() instanceof EnumPropertyType enumPropertyType) {
             if (value instanceof String stringValue) {

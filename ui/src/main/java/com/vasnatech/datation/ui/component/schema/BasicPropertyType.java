@@ -5,65 +5,38 @@ import com.vasnatech.datation.ui.design.schema.Insets;
 import com.vasnatech.datation.ui.design.schema.Rectangle;
 
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public enum BasicPropertyType implements PropertyType {
-    BOOLEAN("boolean") {
-        public Boolean parseValue(String s) {
-            return s == null ? null : Boolean.valueOf(s);
-        }
-    },
-    INTEGER("integer") {
-        public Integer parseValue(String s) {
-            return s == null ? null : Integer.valueOf(s);
-        }
-    },
-    FLOAT("float") {
-        public Float parseValue(String s) {
-            return s == null ? null : Float.valueOf(s);
-        }
-    },
-    STRING("string") {
-        public String parseValue(String s) {
-            return s;
-        }
-    },
-    STRING_ARRAY("string[]") {
-        public String[] parseValue(String s) {
-            return s == null ? null : s.split(",");
-        }
-    },
-    INSETS("insets") {
-        public Insets parseValue(String s) {
-            return s == null ? null : Insets.valueOf(s);
-        }
-    },
-    RECTANGLE("rectangle") {
-        public Rectangle parseValue(String s) {
-            return s == null ? null : Rectangle.valueOf(s);
-        }
-    },
-    DIMENSION("dimension") {
-        public Dimension parseValue(String s) {
-            return s == null ? null : Dimension.valueOf(s);
-        }
-    },
-    URI("uri") {
-        public java.net.URI parseValue(String s) {
-            return s == null ? null : java.net.URI.create(s);
-        }
-    }
+
+    BOOLEAN("boolean", Boolean::valueOf),
+    INTEGER("integer", Integer::valueOf),
+    FLOAT("float", Float::valueOf),
+    STRING("string", Function.identity()),
+    STRING_ARRAY("string[]", s -> s.split(",")),
+    INSETS("insets", Insets::valueOf),
+    RECTANGLE("rectangle",  Rectangle::valueOf),
+    DIMENSION("dimension", Dimension::valueOf),
+    URI("uri", java.net.URI::create)
     ;
 
     final String key;
+    final Function<String, ?> parser;
 
-    BasicPropertyType(String key) {
+    BasicPropertyType(String key, Function<String, ?> parser) {
         this.key = key;
+        this.parser = parser;
     }
 
     public String key() {
         return key;
+    }
+
+    @Override
+    public Object parseValue(String stringValue) {
+        return stringValue == null ? null : parser.apply(stringValue);
     }
 
     static final Map<String, BasicPropertyType> MAP = Stream.of(values()).collect(Collectors.toMap(BasicPropertyType::key, it -> it));

@@ -24,7 +24,7 @@ public class SchemaLoaderTest {
         try (InputStream in = Resources.asInputStream(com.vasnatech.datation.ui.component.SchemaLoaderTest.class, "default--ui-control.json")) {
             final SchemaLoader schemaLoader = SchemaLoaderFactories.get(SupportedMediaTypes.JSON).create(
                     Map.of(
-                            "normalize", Boolean.FALSE,
+                            "normalize", Boolean.TRUE,
                             "validate", Boolean.TRUE
                     )
             );

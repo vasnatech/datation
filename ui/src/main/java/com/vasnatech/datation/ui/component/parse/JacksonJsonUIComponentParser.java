@@ -9,9 +9,14 @@ import com.vasnatech.datation.ui.component.schema.*;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class JacksonJsonUIComponentParser implements UIComponentParser {
 
@@ -108,7 +113,9 @@ public class JacksonJsonUIComponentParser implements UIComponentParser {
                 if ("type".equals(fieldName)) {
                     parsePropertyType(parser, propertyBuilder);
                 } else if ("default".equals(fieldName)) {
-                    propertyBuilder.defaultValue(parser.nextTextValue());
+                    parser.nextToken();
+                    Object value = parseValue(parser);
+                    propertyBuilder.defaultValue(value == null ? null : value.toString());
                 } else if ("title".equals(fieldName)) {
                     propertyBuilder.title(parser.nextTextValue());
                 }
@@ -120,8 +127,8 @@ public class JacksonJsonUIComponentParser implements UIComponentParser {
     void parsePropertyType(JsonParser parser, Property.Builder propertyBuilder) throws IOException {
         parser.nextToken();
         if (parser.currentToken() == JsonToken.START_ARRAY) {
-            String[] enumLiteralArray = parseArray(parser);
-            Set<String> enumLiterals = Stream.of(enumLiteralArray).collect(Collectors.toCollection(LinkedHashSet::new));
+            List<?> enumLiteralNames = parseArray(parser);
+            Set<String> enumLiterals = enumLiteralNames.stream().map(String::valueOf).collect(Collectors.toCollection(LinkedHashSet::new));
             propertyBuilder.propertyType(enumLiterals);
         } else {
             propertyBuilder.propertyType(parser.getValueAsString());
@@ -177,12 +184,12 @@ public class JacksonJsonUIComponentParser implements UIComponentParser {
                 String fieldName = parser.currentName();
                 if ("properties".equals(fieldName)) {
                     parser.nextToken();
-                    String[] properties = parseArray(parser);
-                    Stream.of(properties).forEach(controlBuilder::property);
+                    List<?> propertyNames = parseArray(parser);
+                    propertyNames.stream().map(String::valueOf).forEach(controlBuilder::property);
                 } else if ("events".equals(fieldName)) {
                     parser.nextToken();
-                    String[] events = parseArray(parser);
-                    Stream.of(events).forEach(controlBuilder::event);
+                    List<?> eventNames = parseArray(parser);
+                    eventNames.stream().map(String::valueOf).forEach(controlBuilder::event);
                 }
                 parser.nextToken();
             }
@@ -212,34 +219,63 @@ public class JacksonJsonUIComponentParser implements UIComponentParser {
                 String fieldName = parser.currentName();
                 if ("properties".equals(fieldName)) {
                     parser.nextToken();
-                    String[] properties = parseArray(parser);
-                    Stream.of(properties).forEach(containerBuilder::property);
+                    List<?> propertyNames = parseArray(parser);
+                    propertyNames.stream().map(String::valueOf).forEach(containerBuilder::property);
                 } else if ("child-properties".equals(fieldName)) {
                     parser.nextToken();
-                    String[] childProperties = parseArray(parser);
-                    Stream.of(childProperties).forEach(containerBuilder::childProperty);
+                    List<?> childPropertyNames = parseArray(parser);
+                    childPropertyNames.stream().map(String::valueOf).forEach(containerBuilder::childProperty);
                 } else if ("events".equals(fieldName)) {
                     parser.nextToken();
-                    String[] events = parseArray(parser);
-                    Stream.of(events).forEach(containerBuilder::event);
+                    List<?> eventNames = parseArray(parser);
+                    eventNames.stream().map(String::valueOf).forEach(containerBuilder::event);
                 }
                 parser.nextToken();
             }
         }
     }
 
-    String[] parseArray(JsonParser parser) throws IOException {
-        if (parser.currentToken() != JsonToken.START_ARRAY) {
-            return new String[0];
-        }
-        ArrayList<String> list = new ArrayList<>();
+    Object parseValue(JsonParser parser) throws IOException {
+        JsonToken currentToken = parser.currentToken();
+        return switch (currentToken) {
+            case NOT_AVAILABLE -> null;
+            case FIELD_NAME -> null;
+            case VALUE_NULL -> null;
+            case START_OBJECT -> parseObject(parser);
+            case END_OBJECT -> null;
+            case START_ARRAY -> parseArray(parser);
+            case END_ARRAY -> null;
+            case VALUE_EMBEDDED_OBJECT -> parser.currentValue();
+            case VALUE_NUMBER_INT -> parser.getIntValue();
+            case VALUE_NUMBER_FLOAT -> parser.getFloatValue();
+            case VALUE_FALSE -> false;
+            case VALUE_TRUE -> true;
+            case VALUE_STRING -> parser.getText();
+        };
+    }
+
+    Map<String, ?> parseObject(JsonParser parser) throws IOException {
+        Map<String, Object> map = new LinkedHashMap<>();
         parser.nextToken();
-        while (parser.currentToken() != JsonToken.END_ARRAY) {
-            list.add(parser.getValueAsString());
+        while (parser.currentToken() == JsonToken.FIELD_NAME) {
+            String fieldName = parser.currentName();
+            parser.nextToken();
+            map.put(fieldName, parseValue(parser));
             parser.nextToken();
         }
-        return list.toArray(new String[0]);
+        return map;
     }
+
+    List<?> parseArray(JsonParser parser) throws IOException {
+        List<Object> list = new ArrayList<>();
+        parser.nextToken();
+        while (parser.currentToken() != JsonToken.END_ARRAY) {
+            list.add(parseValue(parser));
+            parser.nextToken();
+        }
+        return list;
+    }
+
 
     @Override
     public UIComponentSchema normalize(UIComponentSchema schema) {
