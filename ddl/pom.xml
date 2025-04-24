@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.vasnatech</groupId>
         <artifactId>datation</artifactId>
-        <version>0.1</version>
+        <version>0.2</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>

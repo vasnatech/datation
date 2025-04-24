@@ -6,7 +6,7 @@
 
     <groupId>com.vasnatech</groupId>
     <artifactId>datation</artifactId>
-    <version>0.1</version>
+    <version>0.2</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -16,11 +16,11 @@
     </modules>
 
     <properties>
-        <jdk.version>17</jdk.version>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <jdk.version>21</jdk.version>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java-commons.version>0.1</java-commons.version>
+        <java-commons.version>0.2</java-commons.version>
         <com.fasterxml.jackson.version>2.17.1</com.fasterxml.jackson.version>
         <org.junit.jupiter.version>5.10.2</org.junit.jupiter.version>
         <org.assertj.version>3.26.0</org.assertj.version>
